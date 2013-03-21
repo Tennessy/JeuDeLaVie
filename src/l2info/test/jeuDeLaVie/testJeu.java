@@ -61,6 +61,7 @@ public class testJeu {
 		org.junit.Assert.assertEquals(Jeu.MORT, jeu.evaluer(10));
 	}
 	
+	@Test
 	public void testEvaluerVaisseau(){
 		jeu.ajouterCellule(new Cellule(1,0));
 		jeu.ajouterCellule(new Cellule(2,1));
