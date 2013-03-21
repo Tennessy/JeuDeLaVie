@@ -6,7 +6,7 @@ public class CellulePotentielle extends Cellule {
 	
 	public CellulePotentielle(int x, int y) {
 		super(x, y);
-		this.nbVoisins = 0;
+		this.nbVoisins = 1;
 	}
 	
 	@Override
@@ -16,6 +16,14 @@ public class CellulePotentielle extends Cellule {
 		}
 		else
 			return false;
+	}
+	
+	public void ajouterVoisin(){
+		this.nbVoisins++;
+	}
+	
+	public int getNbVoisin(){
+		return this.nbVoisins;
 	}
 	
 }

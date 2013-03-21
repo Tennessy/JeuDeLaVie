@@ -20,23 +20,31 @@ public class ListeCellulePotentielle {
 			this.element = c;
 		} 
 		else {
-			if (this.suivant != null) {
-				ListeCellulePotentielle cTemp = this.suivant;
-				while (cTemp.suivant != null) {
-					cTemp = cTemp.suivant;
-				}
-				cTemp.element = c;
-			} 
-			else
-				this.suivant = new ListeCellulePotentielle(c);
+			ListeCellulePotentielle cTemp = this;
+			while (cTemp.suivant != null) {
+				cTemp = cTemp.suivant;
+			}
+			cTemp.suivant = new ListeCellulePotentielle(c);
 		}
 	}
-	
+
 	public CellulePotentielle tete(){
 		return this.element;
 	}
-	
+
 	public ListeCellulePotentielle queue(){
 		return this.suivant;
 	}
+
+	public void insertElementAfter(CellulePotentielle c){
+		if(this.suivant != null){
+			ListeCellulePotentielle temp = this.suivant;
+			this.suivant = new ListeCellulePotentielle(c);
+			this.suivant.suivant = temp;
+		}
+		else{
+			this.suivant = new ListeCellulePotentielle(c);
+		}
+	}
+
 }
