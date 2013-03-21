@@ -1,19 +1,26 @@
 package l2info.jeuDeLaVie;
 
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Jeu {
 	protected ArrayList<Cellule> listeCellule;
+	public static int MORT = 1;
+	public static int STABLE = 2;
+	public static int OSCILLATEUR = 3;
+	public static int VAISSEAU= 4;
+	public static int INDETERMINE = 5;
+	
 
 	public Jeu(){
 		listeCellule = new ArrayList<Cellule>();
 	}
-	
+
 	public void ajouterCellule(Cellule c){
 		listeCellule.add(c);
 	}
-	
+
 	public void setListeCellule(ArrayList<Cellule> c){
 		this.listeCellule = c;
 	}
@@ -22,9 +29,62 @@ public class Jeu {
 		return this.listeCellule;
 	}
 	
-	public ArrayList<Cellule> calculer(){
-		if(this.listeCellule.isEmpty()){
-			return null;
+	public int evaluer(int nbTours){
+		ArrayList<Cellule> listeCelTemoin = new ArrayList<Cellule>();
+		for(Cellule e : this.listeCellule){
+			listeCelTemoin.add(e);
+		}
+		
+		for(int i=0; i<nbTours; i++){
+			ArrayList<Cellule> temp = this.calculer(this.listeCellule);
+			
+			if(this.listeCellule.equals(temp)){
+				return Jeu.STABLE;
+			}
+			
+			this.listeCellule = temp;
+			listeCelTemoin = this.calculer(listeCelTemoin);
+			listeCelTemoin = this.calculer(listeCelTemoin);
+			
+			if(this.listeCellule.isEmpty()){
+				return MORT;
+			}
+			else if(this.listeCellule.equals(listeCelTemoin)){
+				return Jeu.OSCILLATEUR;
+			}
+			else if(isTranslation(this.listeCellule, listeCelTemoin)){
+				return VAISSEAU;
+			}
+		}
+		return INDETERMINE;
+	}
+	
+	public boolean isTranslation(ArrayList<Cellule> l1, ArrayList<Cellule> l2) {
+		Iterator<Cellule> it1 = l1.iterator();
+		Iterator<Cellule> it2 = l2.iterator();
+		boolean equal = true;
+		if (l1.size() == l2.size()) {
+			int diffX = it1.next().getX() - it2.next().getX();
+			int diffY = it1.next().getY() - it2.next().getY();
+
+			while (it1.hasNext()) {
+				Cellule c1 = it1.next();
+				Cellule c2 = it2.next();
+				if (c2.getX() + diffX != c1.getX()
+						|| c2.getY() + diffY != c1.getY()) {
+					equal = false;
+				}
+			}
+			return equal;
+		} else {
+			return false;
+		}
+
+	}
+
+	public ArrayList<Cellule> calculer(ArrayList<Cellule> listCel){
+		if(listCel.isEmpty()){
+			return new ArrayList<Cellule>();
 		}
 
 		ListeCellulePotentielle[] listesCellulePot = new ListeCellulePotentielle[9];
@@ -32,43 +92,43 @@ public class Jeu {
 			listesCellulePot[i] = new ListeCellulePotentielle();
 		}
 
-		
+
 		for(int i = 0; i<9; i++){
-			Iterator<Cellule> itCels = this.listeCellule.iterator();
+			Iterator<Cellule> itCels = listCel.iterator();
 			while(itCels.hasNext()){
 				Cellule cpTemp = itCels.next();
 				switch(i){
 				case 0:
-					listesCellulePot[0].ajouterElement(new CellulePotentielle(cpTemp.getX()-1, cpTemp.getY()-1));
+					listesCellulePot[0].ajouterElement(new CellulePotentielle(cpTemp.getX()-1, cpTemp.getY()-1, false));
 					break;
 				case 1:
-					listesCellulePot[1].ajouterElement(new CellulePotentielle(cpTemp.x, cpTemp.y-1));
+					listesCellulePot[1].ajouterElement(new CellulePotentielle(cpTemp.x, cpTemp.y-1, false));
 					break;
 				case 2:
-					listesCellulePot[2].ajouterElement(new CellulePotentielle(cpTemp.x+1, cpTemp.y-1));
+					listesCellulePot[2].ajouterElement(new CellulePotentielle(cpTemp.x+1, cpTemp.y-1, false));
 					break;
 				case 3:
-					listesCellulePot[3].ajouterElement(new CellulePotentielle(cpTemp.x-1, cpTemp.y));
+					listesCellulePot[3].ajouterElement(new CellulePotentielle(cpTemp.x-1, cpTemp.y, false));
 					break;
 				case 4:
-					listesCellulePot[4].ajouterElement(new CellulePotentielle(cpTemp.x, cpTemp.y));
+					listesCellulePot[4].ajouterElement(new CellulePotentielle(cpTemp.x, cpTemp.y, true));
 					break;
 				case 5:
-					listesCellulePot[5].ajouterElement(new CellulePotentielle(cpTemp.x+1, cpTemp.y));
+					listesCellulePot[5].ajouterElement(new CellulePotentielle(cpTemp.x+1, cpTemp.y, false));
 					break;
 				case 6:
-					listesCellulePot[6].ajouterElement(new CellulePotentielle(cpTemp.x-1, cpTemp.y+1));
+					listesCellulePot[6].ajouterElement(new CellulePotentielle(cpTemp.x-1, cpTemp.y+1, false));
 					break;
 				case 7:
-					listesCellulePot[7].ajouterElement(new CellulePotentielle(cpTemp.x, cpTemp.y+1));
+					listesCellulePot[7].ajouterElement(new CellulePotentielle(cpTemp.x, cpTemp.y+1, false));
 					break;
 				case 8:
-					listesCellulePot[8].ajouterElement(new CellulePotentielle(cpTemp.x+1, cpTemp.y+1));
+					listesCellulePot[8].ajouterElement(new CellulePotentielle(cpTemp.x+1, cpTemp.y+1, false));
 					break;
 				}
 			}
 		}
-		
+
 		ListeCellulePotentielle listeSomme = listesCellulePot[0];
 		for(int i=1; i<9; i++){
 			ListeCellulePotentielle first = listeSomme;
@@ -76,11 +136,11 @@ public class Jeu {
 			while(current != null){
 				if(first.tete().getY() == current.tete().getY() && first.tete().getX() == current.tete().getX()){
 					first.tete().ajouterVoisin();
-					if(first.queue() != null)
-						first = first.queue();
+					if(current.tete().exists())
+						first.tete().setExist(true);
 					current = current.queue();
 				}
-				
+
 				else if(first.tete().getY() < current.tete().getY() || (first.tete().getY() == current.tete().getY() && first.tete().getX() < current.tete().getX())){
 					if(first.queue() == null || (first.queue().tete().y > current.tete().getY() || (first.queue().tete().getY() == current.tete().getY() && first.queue().tete().getX() > current.tete().getX()))){
 						first.insertElementAfter(current.tete());
@@ -94,16 +154,19 @@ public class Jeu {
 				}
 			}
 		}
-		
+
 		ArrayList<Cellule> lCellule = new ArrayList<Cellule>();
 		while(listeSomme != null){
-			if(listeSomme.tete().getNbVoisin() == 4){
+			System.out.println("Cellule potentielle : " + listeSomme.tete().getX() + ";" + listeSomme.tete().getY() + " | " + listeSomme.tete().getNbVoisin() + listeSomme.tete().exists());
+			if(!listeSomme.tete().exists() && listeSomme.tete().getNbVoisin() == 3){
+				lCellule.add(new Cellule(listeSomme.tete().getX(), listeSomme.tete().getY()));
+			}
+			else if(listeSomme.tete().exists() && (listeSomme.tete().getNbVoisin() == 3 || listeSomme.tete().getNbVoisin() == 4)){
 				lCellule.add(new Cellule(listeSomme.tete().getX(), listeSomme.tete().getY()));
 			}
 			listeSomme = listeSomme.queue();
 		}
-		this.listeCellule = lCellule;
-		
+
 		return lCellule;		
 	}
 
