@@ -31,7 +31,7 @@ public class testJeu {
 		listeCel.add(new Cellule(1,1));
 		listeCel.add(new Cellule(3,2));
 		listeCel.add(new Cellule(2,3));
-		org.junit.Assert.assertEquals(Arrays.asList(new Cellule(2,2)), jeu.calculer(listeCel));
+		org.junit.Assert.assertEquals(Arrays.asList(new Cellule(2,2)), jeu.calculer(listeCel, Jeu.MONDE_NORMAL));
 	}
 	
 	@Test
@@ -40,7 +40,7 @@ public class testJeu {
 		jeu.ajouterCellule(new Cellule(2,2));
 		jeu.ajouterCellule(new Cellule(3,2));
 		jeu.ajouterCellule(new Cellule(4,2));
-		org.junit.Assert.assertEquals(Jeu.OSCILLATEUR, jeu.evaluer(10));
+		org.junit.Assert.assertEquals(Jeu.OSCILLATEUR, jeu.evaluer(10, Jeu.MONDE_NORMAL));
 	}
 	
 	@Test
@@ -50,7 +50,7 @@ public class testJeu {
 		jeu.ajouterCellule(new Cellule(1,0));
 		jeu.ajouterCellule(new Cellule(0,1));
 		jeu.ajouterCellule(new Cellule(1,1));
-		org.junit.Assert.assertEquals(Jeu.STABLE, jeu.evaluer(10));
+		org.junit.Assert.assertEquals(Jeu.STABLE, jeu.evaluer(10, Jeu.MONDE_NORMAL));
 	}
 	
 	@Test
@@ -58,7 +58,7 @@ public class testJeu {
 		jeu.setListeCellule(new ArrayList<Cellule>());
 		jeu.ajouterCellule(new Cellule(0,0));
 		jeu.ajouterCellule(new Cellule(1,0));
-		org.junit.Assert.assertEquals(Jeu.MORT, jeu.evaluer(10));
+		org.junit.Assert.assertEquals(Jeu.MORT, jeu.evaluer(10, Jeu.MONDE_NORMAL));
 	}
 	
 	@Test
@@ -68,7 +68,16 @@ public class testJeu {
 		jeu.ajouterCellule(new Cellule(0,2));
 		jeu.ajouterCellule(new Cellule(1,2));
 		jeu.ajouterCellule(new Cellule(2,2));
-		org.junit.Assert.assertEquals(Jeu.VAISSEAU, jeu.evaluer(10));
+		org.junit.Assert.assertEquals(Jeu.VAISSEAU, jeu.evaluer(10, Jeu.MONDE_NORMAL));
+	}
+	
+	@Test
+	public void testEvaluerMondeFrontiere(){
+		jeu.setListeCellule(new ArrayList<Cellule>());
+		jeu.ajouterCellule(new Cellule(0,0));
+		jeu.ajouterCellule(new Cellule(0,1));
+		jeu.ajouterCellule(new Cellule(0,2));
+		org.junit.Assert.assertEquals(Jeu.MORT, jeu.evaluer(10, Jeu.MONDE_FRONTIERES));
 	}
 
 }

@@ -17,7 +17,7 @@ public class Main {
 			System.out.println("Cellule : " + c.getX() + ";" + c.getY());
 		}
 		
-		jeu.setListeCellule(jeu.calculer(jeu.getListeCellule()));
+		jeu.setListeCellule(jeu.calculer(jeu.getListeCellule(), Jeu.MONDE_NORMAL));
 		System.out.println("-----------");
 		for(Cellule c : jeu.getListeCellule()){
 			System.out.println("Cellule : " + c.getX() + ";" + c.getY());
