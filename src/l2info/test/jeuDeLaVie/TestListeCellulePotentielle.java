@@ -24,22 +24,22 @@ public class TestListeCellulePotentielle {
 	@Test
 	public void testAjouterElement() {
 		assertNull(lis.tete());
-		lis.ajouterElement(new CellulePotentielle(0,0,true));
-		org.junit.Assert.assertEquals(new CellulePotentielle(0,0,true),lis.tete());
+		lis.ajouterElement(new CellulePotentielle(0,0,true, 1));
+		org.junit.Assert.assertEquals(new CellulePotentielle(0,0,true, 1),lis.tete());
 		org.junit.Assert.assertEquals(null,lis.queue());
 		assertNotNull(lis.tete()==null);
-		lis.ajouterElement(new CellulePotentielle(0,7,true));
-		org.junit.Assert.assertEquals(new CellulePotentielle(0,0,true),lis.tete());
-		org.junit.Assert.assertEquals(new CellulePotentielle(0,7,true),lis.queue().tete());
+		lis.ajouterElement(new CellulePotentielle(0,7,true, 1));
+		org.junit.Assert.assertEquals(new CellulePotentielle(0,0,true, 1),lis.tete());
+		org.junit.Assert.assertEquals(new CellulePotentielle(0,7,true, 1),lis.queue().tete());
 	}
 
 	
 	@Test
 	public void testInsertElementAfter() {
 		CellulePotentielle a,b,c;
-		a=new CellulePotentielle(0,1,true);
-		b=new CellulePotentielle(1,2,false);
-		c=new CellulePotentielle(0,9,true);
+		a=new CellulePotentielle(0,1,true, 1);
+		b=new CellulePotentielle(1,2,false, 1);
+		c=new CellulePotentielle(0,9,true, 1);
 		assertNull(lis.tete());
 		lis.ajouterElement(a);
 		assertNull( lis.queue());

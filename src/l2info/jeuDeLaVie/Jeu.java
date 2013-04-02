@@ -9,6 +9,8 @@ public class Jeu {
 	protected int type;
 	protected String name;
 	protected int tailleQueue;
+	protected int minX, minY;
+	protected int maxX, maxY;
 	
 	public static final int MORT = 1;
 	public static final int STABLE = 2;
@@ -25,6 +27,10 @@ public class Jeu {
 		type = Jeu.INDETERMINE;
 		this.name = "";
 		this.tailleQueue = 0;
+		this.minX = 999999;
+		this.minY = 999999;
+		this.maxX = -999999;
+		this.maxY = -999999;
 	}
 	
 	public Jeu(String name, ArrayList<Cellule> liste){
@@ -32,6 +38,21 @@ public class Jeu {
 		this.listeCellule = liste;
 		this.type = Jeu.INDETERMINE;
 		this.tailleQueue = 0;
+		this.minX = 999999;
+		this.minY = 999999;
+		this.maxX = -999999;
+		this.maxY = -999999;
+	}
+	
+	public Jeu(String name, ArrayList<Cellule> liste, int minX, int minY, int maxX, int maxY){
+		this.name = name;
+		this.listeCellule = liste;
+		this.type = Jeu.INDETERMINE;
+		this.tailleQueue = 0;
+		this.minX = minX;
+		this.minY = minY;
+		this.maxX = maxX;
+		this.maxY = maxY;
 	}
 
 	public void ajouterCellule(Cellule c){
@@ -104,10 +125,10 @@ public class Jeu {
 	}
 
 	public ArrayList<Cellule> calculer(ArrayList<Cellule> listCel, int typeMonde){
-		int minX = 999999;
-		int minY = 999999;
-		int maxX = -999999;
-		int maxY = -999999;
+		int minX = (this.minX<999999?this.minX:999999);
+		int minY = (this.minY<999999?this.minY:999999);
+		int maxX = (this.maxX>-999999?this.maxX:-999999);
+		int maxY = (this.maxY>-999999?this.maxY:-999999);;
 		
 		if(listCel.isEmpty()){
 			return new ArrayList<Cellule>();
@@ -124,20 +145,20 @@ public class Jeu {
 		while(itCels.hasNext()){
 			Cellule cpTemp = itCels.next();
 			minX = Math.min(minX, cpTemp.getX());
-			minY = Math.min(minX, cpTemp.getY());
+			minY = Math.min(minY, cpTemp.getY());
 			maxX = Math.max(maxX, cpTemp.getX());
 			maxY = Math.max(maxY, cpTemp.getY());
 			
 			
-			listesCellulePot[0].ajouterElement(new CellulePotentielle(cpTemp.getX()-1, cpTemp.getY()-1, false));
-			listesCellulePot[1].ajouterElement(new CellulePotentielle(cpTemp.x, cpTemp.y-1, false));
-			listesCellulePot[2].ajouterElement(new CellulePotentielle(cpTemp.x+1, cpTemp.y-1, false));
-			listesCellulePot[3].ajouterElement(new CellulePotentielle(cpTemp.x-1, cpTemp.y, false));
-			listesCellulePot[4].ajouterElement(new CellulePotentielle(cpTemp.x, cpTemp.y, true));
-			listesCellulePot[5].ajouterElement(new CellulePotentielle(cpTemp.x+1, cpTemp.y, false));
-			listesCellulePot[6].ajouterElement(new CellulePotentielle(cpTemp.x-1, cpTemp.y+1, false));
-			listesCellulePot[7].ajouterElement(new CellulePotentielle(cpTemp.x, cpTemp.y+1, false));
-			listesCellulePot[8].ajouterElement(new CellulePotentielle(cpTemp.x+1, cpTemp.y+1, false));
+			listesCellulePot[0].ajouterElement(new CellulePotentielle(cpTemp.getX()-1, cpTemp.getY()-1, false, 1));
+			listesCellulePot[1].ajouterElement(new CellulePotentielle(cpTemp.x, cpTemp.y-1, false, 1));
+			listesCellulePot[2].ajouterElement(new CellulePotentielle(cpTemp.x+1, cpTemp.y-1, false, 1));
+			listesCellulePot[3].ajouterElement(new CellulePotentielle(cpTemp.x-1, cpTemp.y, false, 1));
+			listesCellulePot[4].ajouterElement(new CellulePotentielle(cpTemp.x, cpTemp.y, true, 1));
+			listesCellulePot[5].ajouterElement(new CellulePotentielle(cpTemp.x+1, cpTemp.y, false, 1));
+			listesCellulePot[6].ajouterElement(new CellulePotentielle(cpTemp.x-1, cpTemp.y+1, false, 1));
+			listesCellulePot[7].ajouterElement(new CellulePotentielle(cpTemp.x, cpTemp.y+1, false, 1));
+			listesCellulePot[8].ajouterElement(new CellulePotentielle(cpTemp.x+1, cpTemp.y+1, false, 1));
 
 		}
 	
@@ -145,34 +166,63 @@ public class Jeu {
 	ListeCellulePotentielle listeSomme = listesCellulePot[0];
 	for(int i=1; i<9; i++){
 		ListeCellulePotentielle first = listeSomme;
-		ListeCellulePotentielle current = listesCellulePot[i];
-		while(current != null){
-			if(first.tete().getY() == current.tete().getY() && first.tete().getX() == current.tete().getX()){
-				first.tete().ajouterVoisin();
-				if(current.tete().exists())
-					first.tete().setExist(true);
-				current = current.queue();
+//		while(current != null){
+//			if(first.tete().getY() == current.tete().getY() && first.tete().getX() == current.tete().getX()){
+//				first.tete().ajouterVoisin();
+//				if(current.tete().exists())
+//					first.tete().setExist(true);
+//				current = current.queue();
+//			}
+//
+//			else if(first.tete().getY() < current.tete().getY() || (first.tete().getY() == current.tete().getY() && first.tete().getX() < current.tete().getX())){
+//				if(first.queue() == null || (first.queue().tete().y > current.tete().getY() || (first.queue().tete().getY() == current.tete().getY() && first.queue().tete().getX() > current.tete().getX()))){
+//					first.insertElementAfter(current.tete());
+//					first = first.queue();	
+//					current = current.queue();
+//				}
+//				else{
+//					if(first.queue() != null)
+//						first = first.queue();
+//				}
+//			}
+//		}
+		this.additionCelPot(first, listesCellulePot[i]);
+	}
+	
+	if(typeMonde == Jeu.MONDE_CIRCULAIRE){
+		ListeCellulePotentielle liste = listeSomme;
+		ListeCellulePotentielle[] exterieur = new ListeCellulePotentielle[4];
+		for(int i=0; i<exterieur.length; i++){
+			exterieur[i] = new ListeCellulePotentielle();
+		}
+		while(liste != null){
+			if(liste.tete().getX() == minX-1 && liste.tete().getY()>=minY && liste.tete().getY() <= maxY){
+				exterieur[0].ajouterElement(new CellulePotentielle(maxX, liste.tete().getY(), false, liste.tete().getNbVoisin()));
 			}
-
-			else if(first.tete().getY() < current.tete().getY() || (first.tete().getY() == current.tete().getY() && first.tete().getX() < current.tete().getX())){
-				if(first.queue() == null || (first.queue().tete().y > current.tete().getY() || (first.queue().tete().getY() == current.tete().getY() && first.queue().tete().getX() > current.tete().getX()))){
-					first.insertElementAfter(current.tete());
-					first = first.queue();	
-					current = current.queue();
-				}
-				else{
-					if(first.queue() != null)
-						first = first.queue();
-				}
+			else if(liste.tete().getX() == maxX+1 && liste.tete().getY()>=minY && liste.tete().getY() <= maxY){
+				exterieur[1].ajouterElement(new CellulePotentielle(minX, liste.tete().getY(), false, liste.tete().getNbVoisin()));
 			}
+			else if(liste.tete().getY() == minY-1 && liste.tete().getX()>= minX && liste.tete().getX() <= maxX){
+				exterieur[2].ajouterElement(new CellulePotentielle(liste.tete().getX(), maxY, false, liste.tete().getNbVoisin()));
+			}
+			else if(liste.tete().getY() == maxY+1 && liste.tete().getX()>= minX && liste.tete().getX() <= maxX){
+				exterieur[3].ajouterElement(new CellulePotentielle(liste.tete().getX(), minY, false, liste.tete().getNbVoisin()));
+			}
+			liste = liste.queue();
+		}
+		
+		for(int i=0; i<exterieur.length; i++){
+			liste = listeSomme;
+			if(exterieur[i].tete() != null)
+				listeSomme = this.additionCelPot(listeSomme, exterieur[i]);			
 		}
 	}
 
 	ArrayList<Cellule> lCellule = new ArrayList<Cellule>();
 	while(listeSomme != null){
 		if(!listeSomme.tete().exists() && listeSomme.tete().getNbVoisin() == 3){
-			if(typeMonde == Jeu.MONDE_FRONTIERES){
-				if(listeSomme.tete().getX() > minX && listeSomme.tete().getY() > minY && listeSomme.tete().getX() < maxX && listeSomme.tete().getY() < maxY){
+			if(typeMonde == Jeu.MONDE_FRONTIERES || typeMonde == Jeu.MONDE_CIRCULAIRE){
+				if(listeSomme.tete().getX() > minX && listeSomme.tete().getY() >= minY && listeSomme.tete().getX() <= maxX && listeSomme.tete().getY() <= maxY){
 					lCellule.add(new Cellule(listeSomme.tete().getX(), listeSomme.tete().getY()));
 				}
 			}
@@ -189,6 +239,36 @@ public class Jeu {
 
 	return lCellule;		
 }
+	
+	private ListeCellulePotentielle additionCelPot(ListeCellulePotentielle lc1, ListeCellulePotentielle lc2){
+		ListeCellulePotentielle temp = lc1;
+		while(lc2 != null){
+			if(lc1.tete().getY() == lc2.tete().getY() && lc1.tete().getX() == lc2.tete().getX()){
+				lc1.tete().ajouterVoisin();
+				if(lc2.tete().exists())
+					lc1.tete().setExist(true);
+				lc2 = lc2.queue();
+			}
+
+			else if(lc1.tete().getY() < lc2.tete().getY() || (lc1.tete().getY() == lc2.tete().getY() && lc1.tete().getX() < lc2.tete().getX())){
+				if(lc1.queue() == null || (lc1.queue().tete().y > lc2.tete().getY() || (lc1.queue().tete().getY() == lc2.tete().getY() && lc1.queue().tete().getX() > lc2.tete().getX()))){
+					lc1.insertElementAfter(lc2.tete());
+					lc1 = lc1.queue();	
+					lc2 = lc2.queue();
+				}
+				else{
+					if(lc1.queue() != null)
+						lc1 = lc1.queue();
+				}
+			}
+			else{
+				lc1 = lc1.AjouterTete(lc2.tete());
+				temp = lc1;
+				lc2 = lc2.queue();
+			}
+		}
+		return temp;
+	}
 
 	public static String toFullHTML(ArrayList<Jeu> listeJeu){
 		String html = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"><html><head><title>Resultats Jeu de la vie</title></head><body> <table border=\"1\"> <tr><th>Nom</th><th>type</th><th>Taille queue</th></tr><tr>";

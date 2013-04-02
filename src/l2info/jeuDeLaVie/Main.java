@@ -11,18 +11,18 @@ public class Main {
 
 	public static void main(String[] args) {
 		ArrayList<Cellule> listeCel = new ArrayList<Cellule>();
-		listeCel.add(new Cellule(0,0));
-		listeCel.add(new Cellule(1,0));
-		listeCel.add(new Cellule(0,1));
-		listeCel.add(new Cellule(1,1));
-		Jeu jeu = new Jeu("Test", listeCel);
-		jeu.evaluer(10, Jeu.MONDE_NORMAL);
+		listeCel.add(new Cellule(2,0));
+		listeCel.add(new Cellule(2,3));
+		listeCel.add(new Cellule(2,4));
+		Jeu jeu = new Jeu("Test", listeCel, 0,0,4,4);
+		jeu.evaluer(10, Jeu.MONDE_CIRCULAIRE);
 		
 		Jeu jeu2 = new Jeu("Test2", listeCel);
 		jeu2.evaluer(10, Jeu.MONDE_NORMAL);
 		ArrayList<Jeu> listeJeu = new ArrayList<Jeu>();
 		listeJeu.add(jeu);
 		listeJeu.add(jeu2);
+		
 		
 		try {
 			FileOutputStream file = new FileOutputStream(new File("test.html"));

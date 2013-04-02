@@ -5,9 +5,9 @@ public class CellulePotentielle extends Cellule {
 	protected int nbVoisins;
 	protected boolean existe;
 	
-	public CellulePotentielle(int x, int y, boolean existe) {
+	public CellulePotentielle(int x, int y, boolean existe, int nbVoisin) {
 		super(x, y);
-		this.nbVoisins = 1;
+		this.nbVoisins = nbVoisin;
 		this.existe = existe;
 	}
 	

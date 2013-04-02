@@ -79,5 +79,14 @@ public class testJeu {
 		jeu.ajouterCellule(new Cellule(0,2));
 		org.junit.Assert.assertEquals(Jeu.MORT, jeu.evaluer(10, Jeu.MONDE_FRONTIERES));
 	}
+	
+	@Test
+	public void testEvaluerCirculaire(){
+		jeu = new Jeu("test", new ArrayList<Cellule>(), 0, 0, 4, 4);
+		jeu.ajouterCellule(new Cellule(2,0));
+		jeu.ajouterCellule(new Cellule(2,3));
+		jeu.ajouterCellule(new Cellule(2,4));
+		org.junit.Assert.assertEquals(Jeu.OSCILLATEUR, jeu.evaluer(10, Jeu.MONDE_CIRCULAIRE));
+	}
 
 }

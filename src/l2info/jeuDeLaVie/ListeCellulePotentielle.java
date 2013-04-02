@@ -46,5 +46,11 @@ public class ListeCellulePotentielle {
 			this.suivant = new ListeCellulePotentielle(c);
 		}
 	}
+	
+	public ListeCellulePotentielle AjouterTete(CellulePotentielle c){
+		ListeCellulePotentielle temp = new ListeCellulePotentielle(c);
+		temp.suivant = this;
+		return temp;
+	}
 
 }

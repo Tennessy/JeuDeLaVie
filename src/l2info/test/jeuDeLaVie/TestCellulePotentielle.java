@@ -12,7 +12,7 @@ public class TestCellulePotentielle {
 
 	@Before
 	public void test() {
-		celP = new CellulePotentielle(0, 0, true);
+		celP = new CellulePotentielle(0, 0, true, 1);
 	}
 
 	@Test
@@ -40,14 +40,14 @@ public class TestCellulePotentielle {
 	@Test
 	public void testGetNbVoisin() {
 		org.junit.Assert.assertEquals(1,celP.getNbVoisin());
-		CellulePotentielle a=new CellulePotentielle(3,9,true);
+		CellulePotentielle a=new CellulePotentielle(3,9,true, 1);
 		org.junit.Assert.assertEquals(1,a.getNbVoisin());
 	}
 	
 	@Test
 	public void testEquals() {
-		CellulePotentielle a=new CellulePotentielle(3,9,true);
-		CellulePotentielle b=new CellulePotentielle(0,0,true);
+		CellulePotentielle a=new CellulePotentielle(3,9,true, 1);
+		CellulePotentielle b=new CellulePotentielle(0,0,true, 1);
 		//assertTrue((b.getX()==celP.getX())&&(b.getY()==celP.getY()));
 		//assertFalse((b.getX()==a.getX())&&(a.getY()==b.getY()));
 		org.junit.Assert.assertEquals(true,b.equals(celP));
