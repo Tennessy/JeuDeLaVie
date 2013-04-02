@@ -6,6 +6,10 @@ import java.util.Iterator;
 
 public class Jeu {
 	protected ArrayList<Cellule> listeCellule;
+	protected int type;
+	protected String name;
+	protected int tailleQueue;
+	
 	public static final int MORT = 1;
 	public static final int STABLE = 2;
 	public static final int VAISSEAU= 4;
@@ -18,6 +22,16 @@ public class Jeu {
 
 	public Jeu(){
 		listeCellule = new ArrayList<Cellule>();
+		type = Jeu.INDETERMINE;
+		this.name = "";
+		this.tailleQueue = 0;
+	}
+	
+	public Jeu(String name, ArrayList<Cellule> liste){
+		this.name = name;
+		this.listeCellule = liste;
+		this.type = Jeu.INDETERMINE;
+		this.tailleQueue = 0;
 	}
 
 	public void ajouterCellule(Cellule c){
@@ -42,6 +56,7 @@ public class Jeu {
 			ArrayList<Cellule> temp = this.calculer(this.listeCellule, typeMonde);
 
 			if(this.listeCellule.equals(temp)){
+				this.type = Jeu.STABLE;
 				return Jeu.STABLE;
 			}
 
@@ -50,12 +65,15 @@ public class Jeu {
 			listeCelTemoin = this.calculer(listeCelTemoin, typeMonde);
 
 			if(this.listeCellule.isEmpty()){
+				this.type = Jeu.MORT;
 				return MORT;
 			}
 			else if(this.listeCellule.equals(listeCelTemoin)){
+				this.type = Jeu.OSCILLATEUR;
 				return Jeu.OSCILLATEUR;
 			}
 			else if(isTranslation(this.listeCellule, listeCelTemoin)){
+				this.type = Jeu.VAISSEAU;
 				return VAISSEAU;
 			}
 		}
@@ -172,5 +190,32 @@ public class Jeu {
 	return lCellule;		
 }
 
+	public static String toFullHTML(ArrayList<Jeu> listeJeu){
+		String html = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"><html><head><title>Resultats Jeu de la vie</title></head><body> <table border=\"1\"> <tr><th>Nom</th><th>type</th><th>Taille queue</th></tr><tr>";
+		for(Jeu jeu : listeJeu){
+			html += "<td>" + jeu.name + "</td><td>";
+			
+			switch(jeu.type){
+			case Jeu.INDETERMINE:
+				html += "Indetermine";
+				break;
+			case Jeu.MORT:
+				html += "Mort";
+				break;
+			case Jeu.OSCILLATEUR:
+				html += "Oscillateur";
+				break;
+			case Jeu.STABLE:
+				html += "Stable";
+				break;
+			case Jeu.VAISSEAU:
+				html += "Vaisseau";
+			}
+			html += "</td><td>" + (jeu.tailleQueue>0?jeu.tailleQueue:"Inconnue") + "</td></tr>";
+		}
+		
+		html += "</table> </body></html";
+		return html;
+	}
 
 }
