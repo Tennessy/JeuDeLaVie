@@ -2,6 +2,7 @@ package l2info.jeuDeLaVie;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -438,6 +439,7 @@ public class Jeu {
 	public static void GenerateHTML(ArrayList<Jeu> listejeu) throws IOException{
 		BufferedWriter b=new BufferedWriter(new FileWriter("JeuDeLaVie.html"));
 		b.write(toFullHTML(listejeu));
+		b.close();
 	}
 
 }
