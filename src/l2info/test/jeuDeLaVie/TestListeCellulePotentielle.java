@@ -2,10 +2,6 @@ package l2info.test.jeuDeLaVie;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import l2info.jeuDeLaVie.Cellule;
 import l2info.jeuDeLaVie.CellulePotentielle;
 import l2info.jeuDeLaVie.ListeCellulePotentielle;
 

@@ -21,7 +21,9 @@ public class Jeu {
 	public static final int MONDE_CIRCULAIRE = 11;
 	public static final int MONDE_FRONTIERES = 12;
 
-
+	/**
+	 * Constructeur par defaut, créé un nouveau Jeu vide.
+	 */
 	public Jeu(){
 		listeCellule = new ArrayList<Cellule>();
 		type = Jeu.INDETERMINE;
@@ -33,6 +35,13 @@ public class Jeu {
 		this.maxY = -999999;
 	}
 	
+	/**
+	 * Créé un Jeu avec un nom, à partir d'un ArrayList.
+	 * @param name 
+	 * 			Nom du Jeu.
+	 * @param liste
+	 * 			ArrayList contenant la disposition des Cellules.
+	 */
 	public Jeu(String name, ArrayList<Cellule> liste){
 		this.name = name;
 		this.listeCellule = liste;
@@ -44,6 +53,21 @@ public class Jeu {
 		this.maxY = -999999;
 	}
 	
+	/**
+	 * Créé un Jeu, à partir d'une ArrayList, avec un nom et les coordonnées minimal et maximal du Jeu.
+	 * @param name
+	 * 			Nom du Jeu.
+	 * @param liste
+	 * 			ArrayList contenant la disposition des Cellules.
+	 * @param minX
+	 * 			Abscisse à laquelle le terrain commence
+	 * @param minY
+	 * 			Ordonnée à laquelle le terrain commence.
+	 * @param maxX
+	 * 			Abscisse à laquelle le terrain se termine.
+	 * @param maxY
+	 * 			Abscisse à laquelle le terrain se termine.
+	 */
 	public Jeu(String name, ArrayList<Cellule> liste, int minX, int minY, int maxX, int maxY){
 		this.name = name;
 		this.listeCellule = liste;
@@ -55,18 +79,42 @@ public class Jeu {
 		this.maxY = maxY;
 	}
 
+	/**
+	 * Ajoute une Cellule au Jeu.
+	 * @param c
+	 * 		Cellule à ajouter au Jeu.
+	 */
 	public void ajouterCellule(Cellule c){
 		listeCellule.add(c);
 	}
 
+	/**
+	 * Définie la liste de Cellule du Jeu.
+	 * @param c
+	 * 			Une ArrayList contenant la disposition des Cellules.
+	 */
 	public void setListeCellule(ArrayList<Cellule> c){
 		this.listeCellule = c;
 	}
 
+	/**
+	 * Retourne la liste contenant les Cellules du Jeu.
+	 * @return
+	 * 		Une ArrayList de Cellule correspondant à la disposition actuelle des Cellules.
+	 */
 	public ArrayList<Cellule> getListeCellule(){
 		return this.listeCellule;
 	}
 
+	/**
+	 * Calcule l'évolution du Jeu sur un nombre de tours donné.
+	 * @param nbTours
+	 * 			Nombre de tours à effectuer.
+	 * @param typeMonde
+	 * 			Type de monde ( Normal, Frontiere ou Circulaire ) du Jeu.
+	 * @return
+	 * 			Le type d'évolution asymptotique du Jeu.
+	 */
 	public int evaluer(int nbTours, int typeMonde){
 		ArrayList<Cellule> listeCelTemoin = new ArrayList<Cellule>();
 		for(Cellule e : this.listeCellule){
@@ -101,7 +149,7 @@ public class Jeu {
 		return INDETERMINE;
 	}
 
-	public boolean isTranslation(ArrayList<Cellule> l1, ArrayList<Cellule> l2) {
+	private boolean isTranslation(ArrayList<Cellule> l1, ArrayList<Cellule> l2) {
 		Iterator<Cellule> it1 = l1.iterator();
 		Iterator<Cellule> it2 = l2.iterator();
 		boolean equal = true;
@@ -124,6 +172,15 @@ public class Jeu {
 
 	}
 
+	/**
+	 * Calcule l'evolution sur un tour des Cellules du Jeu.
+	 * @param listCel
+	 * 			ArrayList contenant les Cellule du Jeu
+	 * @param typeMonde
+	 * 			Type de monde dans lequel ce passe la simulation.
+	 * @return
+	 * 			Une ArrayList contenant la nouvelle disposition des Cellules.
+	 */
 	public ArrayList<Cellule> calculer(ArrayList<Cellule> listCel, int typeMonde){
 		int minX = (this.minX<999999?this.minX:999999);
 		int minY = (this.minY<999999?this.minY:999999);
@@ -166,26 +223,6 @@ public class Jeu {
 	ListeCellulePotentielle listeSomme = listesCellulePot[0];
 	for(int i=1; i<9; i++){
 		ListeCellulePotentielle first = listeSomme;
-//		while(current != null){
-//			if(first.tete().getY() == current.tete().getY() && first.tete().getX() == current.tete().getX()){
-//				first.tete().ajouterVoisin();
-//				if(current.tete().exists())
-//					first.tete().setExist(true);
-//				current = current.queue();
-//			}
-//
-//			else if(first.tete().getY() < current.tete().getY() || (first.tete().getY() == current.tete().getY() && first.tete().getX() < current.tete().getX())){
-//				if(first.queue() == null || (first.queue().tete().y > current.tete().getY() || (first.queue().tete().getY() == current.tete().getY() && first.queue().tete().getX() > current.tete().getX()))){
-//					first.insertElementAfter(current.tete());
-//					first = first.queue();	
-//					current = current.queue();
-//				}
-//				else{
-//					if(first.queue() != null)
-//						first = first.queue();
-//				}
-//			}
-//		}
 		this.additionCelPot(first, listesCellulePot[i]);
 	}
 	
@@ -270,6 +307,13 @@ public class Jeu {
 		return temp;
 	}
 
+	/**
+	 * Génère le code HTML affichant les résultats des simulations d'évolution.
+	 * @param listeJeu
+	 * 			ArrayList des Jeux dont on souhaite afficher les résultats.
+	 * @return
+	 * 			String contenant le code HTML généré.
+	 */
 	public static String toFullHTML(ArrayList<Jeu> listeJeu){
 		String html = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"><html><head><title>Resultats Jeu de la vie</title></head><body> <table border=\"1\"> <tr><th>Nom</th><th>type</th><th>Taille queue</th></tr><tr>";
 		for(Jeu jeu : listeJeu){

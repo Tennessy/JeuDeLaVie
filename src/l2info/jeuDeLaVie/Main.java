@@ -26,7 +26,7 @@ public class Main {
 		
 		try {
 			FileOutputStream file = new FileOutputStream(new File("test.html"));
-			file.write(jeu.toFullHTML(listeJeu).getBytes("UTF-8"));
+			file.write(Jeu.toFullHTML(listeJeu).getBytes("UTF-8"));
 			System.out.println("Fin ecriture HTML");
 			file.close();
 		} catch (FileNotFoundException e1) {

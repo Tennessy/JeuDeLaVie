@@ -1,6 +1,5 @@
 package l2info.test.jeuDeLaVie;
 
-import static org.junit.Assert.*;
 import l2info.jeuDeLaVie.CellulePotentielle;
 
 import org.junit.Before;
@@ -48,8 +47,6 @@ public class TestCellulePotentielle {
 	public void testEquals() {
 		CellulePotentielle a=new CellulePotentielle(3,9,true, 1);
 		CellulePotentielle b=new CellulePotentielle(0,0,true, 1);
-		//assertTrue((b.getX()==celP.getX())&&(b.getY()==celP.getY()));
-		//assertFalse((b.getX()==a.getX())&&(a.getY()==b.getY()));
 		org.junit.Assert.assertEquals(true,b.equals(celP));
 		org.junit.Assert.assertEquals(false,a.equals(celP));
 	}
