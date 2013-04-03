@@ -49,11 +49,17 @@ public class CellulePotentielle extends Cellule {
 		else
 			return false;
 	}
-	
+	/**
+	 * Incrémente le nombre de voisin d'une unité
+	 */
 	public void ajouterVoisin(){
 		this.nbVoisins++;
 	}
-	
+	/**
+	 * Retourne le nombre de voisin de l'objet courant
+	 * @return
+	 * 		un entier correspondant au nombre actuel de voisins de la cellulePotentielle
+	 */
 	public int getNbVoisin(){
 		return this.nbVoisins;
 	}

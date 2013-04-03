@@ -1,8 +1,14 @@
 package l2info.jeuDeLaVie;
 
-
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.StringTokenizer;
+import java.util.Vector;
 
 public class Jeu {
 	protected ArrayList<Cellule> listeCellule;
@@ -11,10 +17,10 @@ public class Jeu {
 	protected int tailleQueue;
 	protected int minX, minY;
 	protected int maxX, maxY;
-	
+
 	public static final int MORT = 1;
 	public static final int STABLE = 2;
-	public static final int VAISSEAU= 4;
+	public static final int VAISSEAU = 4;
 	public static final int OSCILLATEUR = 3;
 	public static final int INDETERMINE = 5;
 	public static final int MONDE_NORMAL = 10;
@@ -24,7 +30,7 @@ public class Jeu {
 	/**
 	 * Constructeur par defaut, créé un nouveau Jeu vide.
 	 */
-	public Jeu(){
+	public Jeu() {
 		listeCellule = new ArrayList<Cellule>();
 		type = Jeu.INDETERMINE;
 		this.name = "";
@@ -34,15 +40,16 @@ public class Jeu {
 		this.maxX = -999999;
 		this.maxY = -999999;
 	}
-	
+
 	/**
 	 * Créé un Jeu avec un nom, à partir d'un ArrayList.
-	 * @param name 
-	 * 			Nom du Jeu.
+	 * 
+	 * @param name
+	 *            Nom du Jeu.
 	 * @param liste
-	 * 			ArrayList contenant la disposition des Cellules.
+	 *            ArrayList contenant la disposition des Cellules.
 	 */
-	public Jeu(String name, ArrayList<Cellule> liste){
+	public Jeu(String name, ArrayList<Cellule> liste) {
 		this.name = name;
 		this.listeCellule = liste;
 		this.type = Jeu.INDETERMINE;
@@ -52,23 +59,26 @@ public class Jeu {
 		this.maxX = -999999;
 		this.maxY = -999999;
 	}
-	
+
 	/**
-	 * Créé un Jeu, à partir d'une ArrayList, avec un nom et les coordonnées minimal et maximal du Jeu.
+	 * Créé un Jeu, à partir d'une ArrayList, avec un nom et les coordonnées
+	 * minimal et maximal du Jeu.
+	 * 
 	 * @param name
-	 * 			Nom du Jeu.
+	 *            Nom du Jeu.
 	 * @param liste
-	 * 			ArrayList contenant la disposition des Cellules.
+	 *            ArrayList contenant la disposition des Cellules.
 	 * @param minX
-	 * 			Abscisse à laquelle le terrain commence
+	 *            Abscisse à laquelle le terrain commence
 	 * @param minY
-	 * 			Ordonnée à laquelle le terrain commence.
+	 *            Ordonnée à laquelle le terrain commence.
 	 * @param maxX
-	 * 			Abscisse à laquelle le terrain se termine.
+	 *            Abscisse à laquelle le terrain se termine.
 	 * @param maxY
-	 * 			Abscisse à laquelle le terrain se termine.
+	 *            Abscisse à laquelle le terrain se termine.
 	 */
-	public Jeu(String name, ArrayList<Cellule> liste, int minX, int minY, int maxX, int maxY){
+	public Jeu(String name, ArrayList<Cellule> liste, int minX, int minY,
+			int maxX, int maxY) {
 		this.name = name;
 		this.listeCellule = liste;
 		this.type = Jeu.INDETERMINE;
@@ -81,50 +91,54 @@ public class Jeu {
 
 	/**
 	 * Ajoute une Cellule au Jeu.
+	 * 
 	 * @param c
-	 * 		Cellule à ajouter au Jeu.
+	 *            Cellule à ajouter au Jeu.
 	 */
-	public void ajouterCellule(Cellule c){
+	public void ajouterCellule(Cellule c) {
 		listeCellule.add(c);
 	}
 
 	/**
 	 * Définie la liste de Cellule du Jeu.
+	 * 
 	 * @param c
-	 * 			Une ArrayList contenant la disposition des Cellules.
+	 *            Une ArrayList contenant la disposition des Cellules.
 	 */
-	public void setListeCellule(ArrayList<Cellule> c){
+	public void setListeCellule(ArrayList<Cellule> c) {
 		this.listeCellule = c;
 	}
 
 	/**
 	 * Retourne la liste contenant les Cellules du Jeu.
-	 * @return
-	 * 		Une ArrayList de Cellule correspondant à la disposition actuelle des Cellules.
+	 * 
+	 * @return Une ArrayList de Cellule correspondant à la disposition actuelle
+	 *         des Cellules.
 	 */
-	public ArrayList<Cellule> getListeCellule(){
+	public ArrayList<Cellule> getListeCellule() {
 		return this.listeCellule;
 	}
 
 	/**
 	 * Calcule l'évolution du Jeu sur un nombre de tours donné.
+	 * 
 	 * @param nbTours
-	 * 			Nombre de tours à effectuer.
+	 *            Nombre de tours à effectuer.
 	 * @param typeMonde
-	 * 			Type de monde ( Normal, Frontiere ou Circulaire ) du Jeu.
-	 * @return
-	 * 			Le type d'évolution asymptotique du Jeu.
+	 *            Type de monde ( Normal, Frontiere ou Circulaire ) du Jeu.
+	 * @return Le type d'évolution asymptotique du Jeu.
 	 */
-	public int evaluer(int nbTours, int typeMonde){
+	public int evaluer(int nbTours, int typeMonde) {
 		ArrayList<Cellule> listeCelTemoin = new ArrayList<Cellule>();
-		for(Cellule e : this.listeCellule){
+		for (Cellule e : this.listeCellule) {
 			listeCelTemoin.add(e);
 		}
 
-		for(int i=0; i<nbTours; i++){
-			ArrayList<Cellule> temp = this.calculer(this.listeCellule, typeMonde);
+		for (int i = 0; i < nbTours; i++) {
+			ArrayList<Cellule> temp = this.calculer(this.listeCellule,
+					typeMonde);
 
-			if(this.listeCellule.equals(temp)){
+			if (this.listeCellule.equals(temp)) {
 				this.type = Jeu.STABLE;
 				return Jeu.STABLE;
 			}
@@ -133,15 +147,13 @@ public class Jeu {
 			listeCelTemoin = this.calculer(listeCelTemoin, typeMonde);
 			listeCelTemoin = this.calculer(listeCelTemoin, typeMonde);
 
-			if(this.listeCellule.isEmpty()){
+			if (this.listeCellule.isEmpty()) {
 				this.type = Jeu.MORT;
 				return MORT;
-			}
-			else if(this.listeCellule.equals(listeCelTemoin)){
+			} else if (this.listeCellule.equals(listeCelTemoin)) {
 				this.type = Jeu.OSCILLATEUR;
 				return Jeu.OSCILLATEUR;
-			}
-			else if(isTranslation(this.listeCellule, listeCelTemoin)){
+			} else if (isTranslation(this.listeCellule, listeCelTemoin)) {
 				this.type = Jeu.VAISSEAU;
 				return VAISSEAU;
 			}
@@ -174,131 +186,163 @@ public class Jeu {
 
 	/**
 	 * Calcule l'evolution sur un tour des Cellules du Jeu.
+	 * 
 	 * @param listCel
-	 * 			ArrayList contenant les Cellule du Jeu
+	 *            ArrayList contenant les Cellule du Jeu
 	 * @param typeMonde
-	 * 			Type de monde dans lequel ce passe la simulation.
-	 * @return
-	 * 			Une ArrayList contenant la nouvelle disposition des Cellules.
+	 *            Type de monde dans lequel ce passe la simulation.
+	 * @return Une ArrayList contenant la nouvelle disposition des Cellules.
 	 */
-	public ArrayList<Cellule> calculer(ArrayList<Cellule> listCel, int typeMonde){
-		int minX = (this.minX<999999?this.minX:999999);
-		int minY = (this.minY<999999?this.minY:999999);
-		int maxX = (this.maxX>-999999?this.maxX:-999999);
-		int maxY = (this.maxY>-999999?this.maxY:-999999);;
-		
-		if(listCel.isEmpty()){
+	public ArrayList<Cellule> calculer(ArrayList<Cellule> listCel, int typeMonde) {
+		int minX = (this.minX < 999999 ? this.minX : 999999);
+		int minY = (this.minY < 999999 ? this.minY : 999999);
+		int maxX = (this.maxX > -999999 ? this.maxX : -999999);
+		int maxY = (this.maxY > -999999 ? this.maxY : -999999);
+		;
+
+		if (listCel.isEmpty()) {
 			return new ArrayList<Cellule>();
 		}
 
 		ListeCellulePotentielle[] listesCellulePot = new ListeCellulePotentielle[9];
-		for(int i = 0; i<9; i++){
+		for (int i = 0; i < 9; i++) {
 			listesCellulePot[i] = new ListeCellulePotentielle();
 		}
 
-
-
 		Iterator<Cellule> itCels = listCel.iterator();
-		while(itCels.hasNext()){
+		while (itCels.hasNext()) {
 			Cellule cpTemp = itCels.next();
 			minX = Math.min(minX, cpTemp.getX());
 			minY = Math.min(minY, cpTemp.getY());
 			maxX = Math.max(maxX, cpTemp.getX());
 			maxY = Math.max(maxY, cpTemp.getY());
-			
-			
-			listesCellulePot[0].ajouterElement(new CellulePotentielle(cpTemp.getX()-1, cpTemp.getY()-1, false, 1));
-			listesCellulePot[1].ajouterElement(new CellulePotentielle(cpTemp.x, cpTemp.y-1, false, 1));
-			listesCellulePot[2].ajouterElement(new CellulePotentielle(cpTemp.x+1, cpTemp.y-1, false, 1));
-			listesCellulePot[3].ajouterElement(new CellulePotentielle(cpTemp.x-1, cpTemp.y, false, 1));
-			listesCellulePot[4].ajouterElement(new CellulePotentielle(cpTemp.x, cpTemp.y, true, 1));
-			listesCellulePot[5].ajouterElement(new CellulePotentielle(cpTemp.x+1, cpTemp.y, false, 1));
-			listesCellulePot[6].ajouterElement(new CellulePotentielle(cpTemp.x-1, cpTemp.y+1, false, 1));
-			listesCellulePot[7].ajouterElement(new CellulePotentielle(cpTemp.x, cpTemp.y+1, false, 1));
-			listesCellulePot[8].ajouterElement(new CellulePotentielle(cpTemp.x+1, cpTemp.y+1, false, 1));
+
+			listesCellulePot[0].ajouterElement(new CellulePotentielle(cpTemp
+					.getX() - 1, cpTemp.getY() - 1, false, 1));
+			listesCellulePot[1].ajouterElement(new CellulePotentielle(cpTemp.x,
+					cpTemp.y - 1, false, 1));
+			listesCellulePot[2].ajouterElement(new CellulePotentielle(
+					cpTemp.x + 1, cpTemp.y - 1, false, 1));
+			listesCellulePot[3].ajouterElement(new CellulePotentielle(
+					cpTemp.x - 1, cpTemp.y, false, 1));
+			listesCellulePot[4].ajouterElement(new CellulePotentielle(cpTemp.x,
+					cpTemp.y, true, 1));
+			listesCellulePot[5].ajouterElement(new CellulePotentielle(
+					cpTemp.x + 1, cpTemp.y, false, 1));
+			listesCellulePot[6].ajouterElement(new CellulePotentielle(
+					cpTemp.x - 1, cpTemp.y + 1, false, 1));
+			listesCellulePot[7].ajouterElement(new CellulePotentielle(cpTemp.x,
+					cpTemp.y + 1, false, 1));
+			listesCellulePot[8].ajouterElement(new CellulePotentielle(
+					cpTemp.x + 1, cpTemp.y + 1, false, 1));
 
 		}
-	
 
-	ListeCellulePotentielle listeSomme = listesCellulePot[0];
-	for(int i=1; i<9; i++){
-		ListeCellulePotentielle first = listeSomme;
-		this.additionCelPot(first, listesCellulePot[i]);
-	}
-	
-	if(typeMonde == Jeu.MONDE_CIRCULAIRE){
-		ListeCellulePotentielle liste = listeSomme;
-		ListeCellulePotentielle[] exterieur = new ListeCellulePotentielle[4];
-		for(int i=0; i<exterieur.length; i++){
-			exterieur[i] = new ListeCellulePotentielle();
+		ListeCellulePotentielle listeSomme = listesCellulePot[0];
+		for (int i = 1; i < 9; i++) {
+			ListeCellulePotentielle first = listeSomme;
+			this.additionCelPot(first, listesCellulePot[i]);
 		}
-		while(liste != null){
-			if(liste.tete().getX() == minX-1 && liste.tete().getY()>=minY && liste.tete().getY() <= maxY){
-				exterieur[0].ajouterElement(new CellulePotentielle(maxX, liste.tete().getY(), false, liste.tete().getNbVoisin()));
-			}
-			else if(liste.tete().getX() == maxX+1 && liste.tete().getY()>=minY && liste.tete().getY() <= maxY){
-				exterieur[1].ajouterElement(new CellulePotentielle(minX, liste.tete().getY(), false, liste.tete().getNbVoisin()));
-			}
-			else if(liste.tete().getY() == minY-1 && liste.tete().getX()>= minX && liste.tete().getX() <= maxX){
-				exterieur[2].ajouterElement(new CellulePotentielle(liste.tete().getX(), maxY, false, liste.tete().getNbVoisin()));
-			}
-			else if(liste.tete().getY() == maxY+1 && liste.tete().getX()>= minX && liste.tete().getX() <= maxX){
-				exterieur[3].ajouterElement(new CellulePotentielle(liste.tete().getX(), minY, false, liste.tete().getNbVoisin()));
-			}
-			liste = liste.queue();
-		}
-		
-		for(int i=0; i<exterieur.length; i++){
-			liste = listeSomme;
-			if(exterieur[i].tete() != null)
-				listeSomme = this.additionCelPot(listeSomme, exterieur[i]);			
-		}
-	}
 
-	ArrayList<Cellule> lCellule = new ArrayList<Cellule>();
-	while(listeSomme != null){
-		if(!listeSomme.tete().exists() && listeSomme.tete().getNbVoisin() == 3){
-			if(typeMonde == Jeu.MONDE_FRONTIERES || typeMonde == Jeu.MONDE_CIRCULAIRE){
-				if(listeSomme.tete().getX() > minX && listeSomme.tete().getY() >= minY && listeSomme.tete().getX() <= maxX && listeSomme.tete().getY() <= maxY){
-					lCellule.add(new Cellule(listeSomme.tete().getX(), listeSomme.tete().getY()));
+		if (typeMonde == Jeu.MONDE_CIRCULAIRE) {
+			ListeCellulePotentielle liste = listeSomme;
+			ListeCellulePotentielle[] exterieur = new ListeCellulePotentielle[4];
+			for (int i = 0; i < exterieur.length; i++) {
+				exterieur[i] = new ListeCellulePotentielle();
+			}
+			while (liste != null) {
+				if (liste.tete().getX() == minX - 1
+						&& liste.tete().getY() >= minY
+						&& liste.tete().getY() <= maxY) {
+					exterieur[0].ajouterElement(new CellulePotentielle(maxX,
+							liste.tete().getY(), false, liste.tete()
+									.getNbVoisin()));
+				} else if (liste.tete().getX() == maxX + 1
+						&& liste.tete().getY() >= minY
+						&& liste.tete().getY() <= maxY) {
+					exterieur[1].ajouterElement(new CellulePotentielle(minX,
+							liste.tete().getY(), false, liste.tete()
+									.getNbVoisin()));
+				} else if (liste.tete().getY() == minY - 1
+						&& liste.tete().getX() >= minX
+						&& liste.tete().getX() <= maxX) {
+					exterieur[2].ajouterElement(new CellulePotentielle(liste
+							.tete().getX(), maxY, false, liste.tete()
+							.getNbVoisin()));
+				} else if (liste.tete().getY() == maxY + 1
+						&& liste.tete().getX() >= minX
+						&& liste.tete().getX() <= maxX) {
+					exterieur[3].ajouterElement(new CellulePotentielle(liste
+							.tete().getX(), minY, false, liste.tete()
+							.getNbVoisin()));
 				}
+				liste = liste.queue();
 			}
-			else{
-				lCellule.add(new Cellule(listeSomme.tete().getX(), listeSomme.tete().getY()));
+
+			for (int i = 0; i < exterieur.length; i++) {
+				liste = listeSomme;
+				if (exterieur[i].tete() != null)
+					listeSomme = this.additionCelPot(listeSomme, exterieur[i]);
 			}
-			
 		}
-		else if(listeSomme.tete().exists() && (listeSomme.tete().getNbVoisin() == 3 || listeSomme.tete().getNbVoisin() == 4)){
-			lCellule.add(new Cellule(listeSomme.tete().getX(), listeSomme.tete().getY()));
+
+		ArrayList<Cellule> lCellule = new ArrayList<Cellule>();
+		while (listeSomme != null) {
+			if (!listeSomme.tete().exists()
+					&& listeSomme.tete().getNbVoisin() == 3) {
+				if (typeMonde == Jeu.MONDE_FRONTIERES
+						|| typeMonde == Jeu.MONDE_CIRCULAIRE) {
+					if (listeSomme.tete().getX() > minX
+							&& listeSomme.tete().getY() >= minY
+							&& listeSomme.tete().getX() <= maxX
+							&& listeSomme.tete().getY() <= maxY) {
+						lCellule.add(new Cellule(listeSomme.tete().getX(),
+								listeSomme.tete().getY()));
+					}
+				} else {
+					lCellule.add(new Cellule(listeSomme.tete().getX(),
+							listeSomme.tete().getY()));
+				}
+
+			} else if (listeSomme.tete().exists()
+					&& (listeSomme.tete().getNbVoisin() == 3 || listeSomme
+							.tete().getNbVoisin() == 4)) {
+				lCellule.add(new Cellule(listeSomme.tete().getX(), listeSomme
+						.tete().getY()));
+			}
+			listeSomme = listeSomme.queue();
 		}
-		listeSomme = listeSomme.queue();
+
+		return lCellule;
 	}
 
-	return lCellule;		
-}
-	
-	private ListeCellulePotentielle additionCelPot(ListeCellulePotentielle lc1, ListeCellulePotentielle lc2){
+	private ListeCellulePotentielle additionCelPot(ListeCellulePotentielle lc1,
+			ListeCellulePotentielle lc2) {
 		ListeCellulePotentielle temp = lc1;
-		while(lc2 != null){
-			if(lc1.tete().getY() == lc2.tete().getY() && lc1.tete().getX() == lc2.tete().getX()){
+		while (lc2 != null) {
+			if (lc1.tete().getY() == lc2.tete().getY()
+					&& lc1.tete().getX() == lc2.tete().getX()) {
 				lc1.tete().ajouterVoisin();
-				if(lc2.tete().exists())
+				if (lc2.tete().exists())
 					lc1.tete().setExist(true);
 				lc2 = lc2.queue();
 			}
 
-			else if(lc1.tete().getY() < lc2.tete().getY() || (lc1.tete().getY() == lc2.tete().getY() && lc1.tete().getX() < lc2.tete().getX())){
-				if(lc1.queue() == null || (lc1.queue().tete().y > lc2.tete().getY() || (lc1.queue().tete().getY() == lc2.tete().getY() && lc1.queue().tete().getX() > lc2.tete().getX()))){
+			else if (lc1.tete().getY() < lc2.tete().getY()
+					|| (lc1.tete().getY() == lc2.tete().getY() && lc1.tete()
+							.getX() < lc2.tete().getX())) {
+				if (lc1.queue() == null
+						|| (lc1.queue().tete().y > lc2.tete().getY() || (lc1
+								.queue().tete().getY() == lc2.tete().getY() && lc1
+								.queue().tete().getX() > lc2.tete().getX()))) {
 					lc1.insertElementAfter(lc2.tete());
-					lc1 = lc1.queue();	
+					lc1 = lc1.queue();
 					lc2 = lc2.queue();
-				}
-				else{
-					if(lc1.queue() != null)
+				} else {
+					if (lc1.queue() != null)
 						lc1 = lc1.queue();
 				}
-			}
-			else{
+			} else {
 				lc1 = lc1.AjouterTete(lc2.tete());
 				temp = lc1;
 				lc2 = lc2.queue();
@@ -309,17 +353,17 @@ public class Jeu {
 
 	/**
 	 * Génère le code HTML affichant les résultats des simulations d'évolution.
+	 * 
 	 * @param listeJeu
-	 * 			ArrayList des Jeux dont on souhaite afficher les résultats.
-	 * @return
-	 * 			String contenant le code HTML généré.
+	 *            ArrayList des Jeux dont on souhaite afficher les résultats.
+	 * @return String contenant le code HTML généré.
 	 */
-	public static String toFullHTML(ArrayList<Jeu> listeJeu){
+	public static String toFullHTML(ArrayList<Jeu> listeJeu) {
 		String html = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"><html><head><title>Resultats Jeu de la vie</title></head><body> <table border=\"1\"> <tr><th>Nom</th><th>type</th><th>Taille queue</th></tr><tr>";
-		for(Jeu jeu : listeJeu){
+		for (Jeu jeu : listeJeu) {
 			html += "<td>" + jeu.name + "</td><td>";
-			
-			switch(jeu.type){
+
+			switch (jeu.type) {
 			case Jeu.INDETERMINE:
 				html += "Indetermine";
 				break;
@@ -335,11 +379,65 @@ public class Jeu {
 			case Jeu.VAISSEAU:
 				html += "Vaisseau";
 			}
-			html += "</td><td>" + (jeu.tailleQueue>0?jeu.tailleQueue:"Inconnue") + "</td></tr>";
+			html += "</td><td>"
+					+ (jeu.tailleQueue > 0 ? jeu.tailleQueue : "Inconnue")
+					+ "</td></tr>";
 		}
-		
+
 		html += "</table> </body></html";
 		return html;
+	}
+	/**
+	 * Initialise les coordonnées mininales du jeu indiquées dans le fichier lif
+	 * @param stk
+	 * 		Stringtokenizer ayant pour valeur la ligne du fichier lif contenant les parametres du jeu
+	 */
+	private void ParamGame(StringTokenizer stk) {
+		ArrayList<Integer> nb = new ArrayList<Integer>();
+		while (stk.hasMoreTokens()) {
+			try {
+				nb.add(Integer.parseInt(stk.nextToken()));
+			} catch (Exception e) {
+			}
+		}
+		this.minX = nb.get(0);
+		this.minY = nb.get(1);
+	}
+	/**
+	 * Lecture du fichier lif contenant le jeu et ses paramètres
+	 * @param src
+	 * @throws IOException
+	 * 		Nom du fchier à lire
+	 */
+	public void loadGame(String src) throws IOException {
+		ArrayList<Cellule> jeu = new ArrayList<Cellule>();
+		this.name=src;
+		Vector<String> monVector = new Vector<String>();
+		BufferedReader b = new BufferedReader(new FileReader(src));
+		String a = b.readLine();
+		while (a != null) {
+			monVector.addElement(a);
+			a = b.readLine();
+		}
+		String s = monVector.firstElement();
+		monVector.removeElementAt(0);
+		StringTokenizer stk = new StringTokenizer(s, " ");
+		this.ParamGame(stk);
+		for (int i = 0; i < monVector.size(); i++) {
+			for (int j = 0; j < monVector.get(i).length(); j++) {
+				if (monVector.get(i).charAt(j) == '*') {
+					jeu.add(new Cellule(this.minX + i, this.minY + j));
+				}
+			}
+		}
+		this.maxY=this.minY+monVector.size()-1;
+		this.maxX=this.minX+monVector.lastElement().length()-1;
+		b.close();
+		this.listeCellule=jeu;
+	}
+	public static void GenerateHTML(ArrayList<Jeu> listejeu) throws IOException{
+		BufferedWriter b=new BufferedWriter(new FileWriter("JeuDeLaVie.html"));
+		b.write(toFullHTML(listejeu));
 	}
 
 }
