@@ -2,7 +2,6 @@ package l2info.jeuDeLaVie;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -359,7 +358,7 @@ public class Jeu {
 	 *            ArrayList des Jeux dont on souhaite afficher les résultats.
 	 * @return String contenant le code HTML généré.
 	 */
-	public static String toFullHTML(ArrayList<Jeu> listeJeu) {
+	private static String toFullHTML(ArrayList<Jeu> listeJeu) {
 		String html = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"><html><head><title>Resultats Jeu de la vie</title></head><body> <table border=\"1\"> <tr><th>Nom</th><th>type</th><th>Taille queue</th></tr><tr>";
 		for (Jeu jeu : listeJeu) {
 			html += "<td>" + jeu.name + "</td><td>";
@@ -401,8 +400,8 @@ public class Jeu {
 			} catch (Exception e) {
 			}
 		}
-		this.minX = nb.get(0);
-		this.minY = nb.get(1);
+		this.minX = this.maxX = nb.get(0);
+		this.minY = this.maxY = nb.get(1);
 	}
 	/**
 	 * Lecture du fichier lif contenant le jeu et ses paramètres
@@ -425,6 +424,8 @@ public class Jeu {
 		StringTokenizer stk = new StringTokenizer(s, " ");
 		this.ParamGame(stk);
 		for (int i = 0; i < monVector.size(); i++) {
+			if (this.maxX < this.maxX+monVector.get(i).length()-1)
+				this.maxX+=monVector.get(i).length()-1;
 			for (int j = 0; j < monVector.get(i).length(); j++) {
 				if (monVector.get(i).charAt(j) == '*') {
 					jeu.add(new Cellule(this.minX + i, this.minY + j));

@@ -23,7 +23,7 @@ public class Main {
 		listeJeu.add(jeu);
 		listeJeu.add(jeu2);
 
-		try {
+		/**try {
 			FileOutputStream file = new FileOutputStream(new File("test.html"));
 			file.write(Jeu.toFullHTML(listeJeu).getBytes("UTF-8"));
 			System.out.println("Fin ecriture HTML");
@@ -37,7 +37,7 @@ public class Main {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 
 		// System.out.println(jeu.evaluer(10));
 
