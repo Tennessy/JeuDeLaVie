@@ -2,6 +2,7 @@ package l2info.jeuDeLaVie;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -28,6 +29,106 @@ public class Jeu {
 	public static final int MONDE_FRONTIERES = 12;
 
 	/**
+	 * 
+	 * @param args
+	 */
+	public Jeu(String[] args) {
+		switch (args.length) {
+		case 0:
+			System.out
+					.println("Entrez en paramètres des arguments \n Pour plus d'aide tapez: java -jar JeuDeLaVie.jar -h");
+			break;
+		case 1:
+			if (args[0].equals("-name")) {
+				Jeu.ListeName();
+			} else {
+				if (args[0].equals("-h")) {
+					Jeu.ListeOptions();
+				} else
+					Jeu.ErrorArgs();
+			}
+			break;
+		case 3:
+			if (args[0].equals("-s")) {
+				try {
+					int duree = Integer.parseInt(args[1]);
+					File f = new File(args[2]);
+					if (f.exists() && f.isFile()) {
+						// À completer
+					}
+				} catch (NumberFormatException e) {
+					System.out.println("La durée doit être numerique \n");
+					Jeu.ErrorArgs();
+				}
+				// À completer
+			} else {
+				if (args[0].equals("-c")) {
+					try {
+						int max_duree = Integer.parseInt(args[1]);
+						File f = new File(args[2]);
+						if (f.exists() && f.isFile()) {
+							// À completer
+						}
+					} catch (NumberFormatException e) {
+						System.out.println("La durée doit être numerique \n");
+						Jeu.ErrorArgs();
+					}
+					// À completer
+				} else {
+					if (args[0].equals("-w")) {
+						try {
+							int max_duree = Integer.parseInt(args[1]);
+							File f = new File(args[2]);
+							if (f.isDirectory()) {
+								for (File nom : f.listFiles()) {
+									// À completer
+								}
+							} else {
+								Jeu.ErrorArgs();
+							}
+						} catch (NumberFormatException e) {
+							System.out
+									.println("La durée doit être numerique \n");
+							Jeu.ErrorArgs();
+						}
+						// À completer
+					} else
+						Jeu.ErrorArgs();
+				}
+			}
+		default:
+			Jeu.ErrorArgs();
+			break;
+		}
+	}
+
+	private static void ErrorArgs() {
+		System.out.println("Erreur d'arguments, essayez de nouveau");
+	}
+
+	private static void ListeName() {
+		System.out.println(" ***MEMBRES DU GROUPE*** \n");
+		System.out.println("> KOLUBAKO Tennessy \n");
+		System.out.println("> MAAROUFI Khaled \n");
+		System.out.println("> PADONOU LOUEMBET Jimmy \n");
+		System.out.println("> YOUGANG Adrielle \n");
+	}
+
+	private static void ListeOptions() {
+		System.out.println(" ***LISTE DES OPTIONS*** ");
+		System.out
+				.println("> java -jar JeuDeLaVie.jar -name ==> Affiche les noms et prénoms des participants");
+		System.out
+				.println("> java -jar JeuDeLaVie.jar -h ==> Rappel de la liste des options du programme");
+		System.out
+				.println("> java -jar JeuDeLaVie.jar -s d fichier.lif ==> Execution d'une simulation du jeu de durée d affichant les configurations du jeu avec le numéro de génération");
+		System.out
+				.println("> java -jar JeuDeLaVie.jar -c max fichier.lif ==> Calcul du type d’évolution du jeu avec ses caractéristiques (taille de la queue, période et déplacement); max représente la durée maximale de simulation pour déduire les résultats du calcul");
+		System.out
+				.println("> java -jar JeuDeLaVie.jar -w max dossier ==> Calcul du type d’évolution de tous les jeux contenus dans le dossier passé en paramètre et affiche les résultats sous la forme d’un fichier html ");
+	}
+
+	/**
 	 * Constructeur par defaut, créé un nouveau Jeu vide.
 	 */
 	public Jeu() {
@@ -49,16 +150,12 @@ public class Jeu {
 	 * @param liste
 	 *            ArrayList contenant la disposition des Cellules.
 	 */
-	public Jeu(String name, ArrayList<Cellule> liste) {
-		this.name = name;
-		this.listeCellule = liste;
-		this.type = Jeu.INDETERMINE;
-		this.tailleQueue = 0;
-		this.minX = 999999;
-		this.minY = 999999;
-		this.maxX = -999999;
-		this.maxY = -999999;
-	}
+	/*
+	 * public Jeu(String name, ArrayList<Cellule> liste) { this.name = name;
+	 * this.listeCellule = liste; this.type = Jeu.INDETERMINE; this.tailleQueue
+	 * = 0; this.minX = 999999; this.minY = 999999; this.maxX = -999999;
+	 * this.maxY = -999999; }
+	 */
 
 	/**
 	 * Créé un Jeu, à partir d'une ArrayList, avec un nom et les coordonnées
@@ -77,17 +174,17 @@ public class Jeu {
 	 * @param maxY
 	 *            Abscisse à laquelle le terrain se termine.
 	 */
-	public Jeu(String name, ArrayList<Cellule> liste, int minX, int minY,
-			int maxX, int maxY) {
-		this.name = name;
-		this.listeCellule = liste;
-		this.type = Jeu.INDETERMINE;
-		this.tailleQueue = 0;
-		this.minX = minX;
-		this.minY = minY;
-		this.maxX = maxX;
-		this.maxY = maxY;
-	}
+	
+	  public Jeu(String name, ArrayList<Cellule> liste, int minX, int minY, int maxX, int maxY) {
+		  this.name = name; this.listeCellule = liste;
+		  this.type= Jeu.INDETERMINE;
+		  this.tailleQueue = 0;
+		  this.minX = minX; 
+		  this.minY =minY;
+		  this.maxX = maxX;
+		  this.maxY = maxY;
+	  }
+	 
 
 	/**
 	 * Ajoute une Cellule au Jeu.
@@ -358,39 +455,43 @@ public class Jeu {
 	 *            ArrayList des Jeux dont on souhaite afficher les résultats.
 	 * @return String contenant le code HTML généré.
 	 */
-	private static String toFullHTML(ArrayList<Jeu> listeJeu) {
-		String html = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"><html><head><title>Resultats Jeu de la vie</title></head><body> <table border=\"1\"> <tr><th>Nom</th><th>type</th><th>Taille queue</th></tr><tr>";
+	private static StringBuffer toFullHTML(ArrayList<Jeu> listeJeu) {
+		StringBuffer html = new StringBuffer();
+		html.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"><html><head><title>Resultats Jeu de la vie</title></head><body> <table border=\"1\"> <tr><th>Nom</th><th>type</th><th>Taille queue</th></tr><tr>");
 		for (Jeu jeu : listeJeu) {
-			html += "<td>" + jeu.name + "</td><td>";
+			html.append("<td>" + jeu.name + "</td><td>");
 
 			switch (jeu.type) {
 			case Jeu.INDETERMINE:
-				html += "Indetermine";
+				html.append("Indetermine");
 				break;
 			case Jeu.MORT:
-				html += "Mort";
+				html.append("Mort");
 				break;
 			case Jeu.OSCILLATEUR:
-				html += "Oscillateur";
+				html.append("Oscillateur");
 				break;
 			case Jeu.STABLE:
-				html += "Stable";
+				html.append("Stable");
 				break;
 			case Jeu.VAISSEAU:
-				html += "Vaisseau";
+				html.append("Vaisseau");
 			}
-			html += "</td><td>"
+			html.append("</td><td>"
 					+ (jeu.tailleQueue > 0 ? jeu.tailleQueue : "Inconnue")
-					+ "</td></tr>";
+					+ "</td></tr>");
 		}
 
-		html += "</table> </body></html";
+		html.append("</table> </body></html");
 		return html;
 	}
+
 	/**
 	 * Initialise les coordonnées mininales du jeu indiquées dans le fichier lif
+	 * 
 	 * @param stk
-	 * 		Stringtokenizer ayant pour valeur la ligne du fichier lif contenant les parametres du jeu
+	 *            Stringtokenizer ayant pour valeur la ligne du fichier lif
+	 *            contenant les parametres du jeu
 	 */
 	private void ParamGame(StringTokenizer stk) {
 		ArrayList<Integer> nb = new ArrayList<Integer>();
@@ -403,15 +504,17 @@ public class Jeu {
 		this.minX = this.maxX = nb.get(0);
 		this.minY = this.maxY = nb.get(1);
 	}
+
 	/**
 	 * Lecture du fichier lif contenant le jeu et ses paramètres
+	 * 
 	 * @param src
 	 * @throws IOException
-	 * 		Nom du fchier à lire
+	 *             Nom du fchier à lire
 	 */
 	public void loadGame(String src) throws IOException {
 		ArrayList<Cellule> jeu = new ArrayList<Cellule>();
-		this.name=src;
+		this.name = src;
 		Vector<String> monVector = new Vector<String>();
 		BufferedReader b = new BufferedReader(new FileReader(src));
 		String a = b.readLine();
@@ -424,23 +527,50 @@ public class Jeu {
 		StringTokenizer stk = new StringTokenizer(s, " ");
 		this.ParamGame(stk);
 		for (int i = 0; i < monVector.size(); i++) {
-			if (this.maxX < this.maxX+monVector.get(i).length()-1)
-				this.maxX+=monVector.get(i).length()-1;
+			if (this.maxY < this.maxY + monVector.get(i).length() - 1)
+				this.maxY += monVector.get(i).length() - 1;
 			for (int j = 0; j < monVector.get(i).length(); j++) {
 				if (monVector.get(i).charAt(j) == '*') {
 					jeu.add(new Cellule(this.minX + i, this.minY + j));
 				}
 			}
 		}
-		this.maxY=this.minY+monVector.size()-1;
-		this.maxX=this.minX+monVector.lastElement().length()-1;
+		this.maxX = this.minX + monVector.size() - 1;
 		b.close();
-		this.listeCellule=jeu;
+		this.listeCellule = jeu;
 	}
-	public static void GenerateHTML(ArrayList<Jeu> listejeu) throws IOException{
-		BufferedWriter b=new BufferedWriter(new FileWriter("JeuDeLaVie.html"));
-		b.write(toFullHTML(listejeu));
+
+	public static void GenerateHTML(ArrayList<Jeu> listejeu) throws IOException {
+		BufferedWriter b = new BufferedWriter(new FileWriter("JeuDeLaVie.html"));
+		b.write("" + toFullHTML(listejeu));
 		b.close();
+	}
+	// Test si la cellule c existe
+	private boolean IsPresent(Cellule c) {
+		boolean suite = true;
+		Iterator<Cellule> it = listeCellule.listIterator();
+		while (it.hasNext() && suite) {
+			if (c.getX() < it.next().getX()) // Si l'absisse de listeCellule > à celle de c on retourne faux car elle existe pas
+				suite = false;
+			else {
+				if (c.equals(it.next()))
+					return true;
+			}
+		}
+		return false;
+	}
+	// Affichage du jeu
+	public void display() {
+		for (int i = minX; i < maxX; i++) {
+			for (int j = minY; j < maxY; j++) {
+				if (IsPresent(new Cellule(i, j))) {
+					System.out.println("| * |");
+				} else {
+					System.out.println("|   |");
+				}
+				System.out.println();
+			}
+		}
 	}
 
 }

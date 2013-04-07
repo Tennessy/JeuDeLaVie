@@ -10,7 +10,8 @@ import java.util.ArrayList;
 public class Main {
 
 	public static void main(String[] args) {
-		ArrayList<Cellule> listeCel = new ArrayList<Cellule>();
+		Jeu jeu= new Jeu(args);
+		/*ArrayList<Cellule> listeCel = new ArrayList<Cellule>();
 		listeCel.add(new Cellule(2, 0));
 		listeCel.add(new Cellule(2, 3));
 		listeCel.add(new Cellule(2, 4));
@@ -22,8 +23,8 @@ public class Main {
 		ArrayList<Jeu> listeJeu = new ArrayList<Jeu>();
 		listeJeu.add(jeu);
 		listeJeu.add(jeu2);
-
-		/**try {
+*/
+		/*try {
 			FileOutputStream file = new FileOutputStream(new File("test.html"));
 			file.write(Jeu.toFullHTML(listeJeu).getBytes("UTF-8"));
 			System.out.println("Fin ecriture HTML");
@@ -41,36 +42,5 @@ public class Main {
 
 		// System.out.println(jeu.evaluer(10));
 
-		if (args.length > 0) {
-			if (args[0] == "-name") {
-
-			} else if (args[0] == "-h") {
-
-			} else if (args.length == 3 && args[0] == "-s") {
-				try {
-					int duree = Integer.parseInt(args[1]);
-				} catch (NumberFormatException e) {
-					System.out.println("La durée doit être numerique");
-				}
-			} else if (args.length == 3 && args[0] == "-c") {
-				try {
-					int duree = Integer.parseInt(args[1]);
-				} catch (NumberFormatException e) {
-					System.out.println("La durée doit être numerique");
-				}
-			} else if (args.length == 3 && args[0] == "-w") {
-				try {
-					int duree = Integer.parseInt(args[1]);
-				} catch (NumberFormatException e) {
-					System.out.println("La durée doit être numerique");
-				}
-			} else {
-
-			}
-		} else {
-
-		}
-
 	}
-
 }
