@@ -1,46 +1,105 @@
 package l2info.jeuDeLaVie;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
+import java.io.*;
+import java.util.*;
 
 public class Main {
 
 	public static void main(String[] args) {
-		Jeu jeu= new Jeu(args);
-		/*ArrayList<Cellule> listeCel = new ArrayList<Cellule>();
-		listeCel.add(new Cellule(2, 0));
-		listeCel.add(new Cellule(2, 3));
-		listeCel.add(new Cellule(2, 4));
-		Jeu jeu = new Jeu("Test", listeCel, 0, 0, 4, 4);
-		jeu.evaluer(10, Jeu.MONDE_CIRCULAIRE);
-
-		Jeu jeu2 = new Jeu("Test2", listeCel);
-		jeu2.evaluer(10, Jeu.MONDE_NORMAL);
-		ArrayList<Jeu> listeJeu = new ArrayList<Jeu>();
-		listeJeu.add(jeu);
-		listeJeu.add(jeu2);
-*/
-		/*try {
-			FileOutputStream file = new FileOutputStream(new File("test.html"));
-			file.write(Jeu.toFullHTML(listeJeu).getBytes("UTF-8"));
-			System.out.println("Fin ecriture HTML");
-			file.close();
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-
-		// System.out.println(jeu.evaluer(10));
+		switch (args.length) {
+		case 0:
+			System.out
+					.println("Entrez en paramètres des arguments \n Pour plus d'aide tapez: java -jar JeuDeLaVie.jar -h");
+			break;
+		case 1:
+			if (args[0].equals("-name")) {
+				ListeName();
+			} else {
+				if (args[0].equals("-h")) {
+					ListeOptions();
+				} else
+					ErrorArgs();
+			}
+			break;
+		case 3:
+			if (args[0].equals("-s")) {
+				try {
+					int duree = Integer.parseInt(args[1]);
+					File f = new File(args[2]);
+					if (f.exists() && f.isFile()) {
+						// À completer
+					}
+				} catch (NumberFormatException e) {
+					System.out.println("La durée doit être numerique \n");
+					ErrorArgs();
+				}
+				// À completer
+			} else {
+				if (args[0].equals("-c")) {
+					try {
+						int max_duree = Integer.parseInt(args[1]);
+						File f = new File(args[2]);
+						if (f.exists() && f.isFile()) {
+							// À completer
+						}
+					} catch (NumberFormatException e) {
+						System.out.println("La durée doit être numerique \n");
+						ErrorArgs();
+					}
+					// À completer
+				} else {
+					if (args[0].equals("-w")) {
+						try {
+							int max_duree = Integer.parseInt(args[1]);
+							File f = new File(args[2]);
+							if (f.isDirectory()) {
+								for (File nom : f.listFiles()) {
+									// À completer
+								}
+							} else {
+								ErrorArgs();
+							}
+						} catch (NumberFormatException e) {
+							System.out
+									.println("La durée doit être numerique \n");
+							ErrorArgs();
+						}
+						// À completer
+					} else
+						ErrorArgs();
+				}
+			}
+		default:
+			ErrorArgs();
+			break;
+		}
 
 	}
+
+	private static void ErrorArgs() {
+		System.out.println("Erreur d'arguments, essayez de nouveau");
+	}
+
+	private static void ListeName() {
+		System.out.println(" ***MEMBRES DU GROUPE*** \n");
+		System.out.println("> KOLUBAKO Tennessy \n");
+		System.out.println("> MAAROUFI Khaled \n");
+		System.out.println("> PADONOU LOUEMBET Jimmy \n");
+		System.out.println("> YOUGANG Adrielle \n");
+	}
+
+	private static void ListeOptions() {
+		System.out.println(" ***LISTE DES OPTIONS*** ");
+		System.out
+				.println("> java -jar JeuDeLaVie.jar -name ==> Affiche les noms et prénoms des participants");
+		System.out
+				.println("> java -jar JeuDeLaVie.jar -h ==> Rappel de la liste des options du programme");
+		System.out
+				.println("> java -jar JeuDeLaVie.jar -s d fichier.lif ==> Execution d'une simulation du jeu de durée d affichant les configurations du jeu avec le numéro de génération");
+		System.out
+				.println("> java -jar JeuDeLaVie.jar -c max fichier.lif ==> Calcul du type d’évolution du jeu avec ses caractéristiques (taille de la queue, période et déplacement); max représente la durée maximale de simulation pour déduire les résultats du calcul");
+		System.out
+				.println("> java -jar JeuDeLaVie.jar -w max dossier ==> Calcul du type d’évolution de tous les jeux contenus dans le dossier passé en paramètre et affiche les résultats sous la forme d’un fichier html ");
+	}
+
 }

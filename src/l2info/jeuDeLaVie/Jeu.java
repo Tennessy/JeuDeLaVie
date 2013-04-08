@@ -29,106 +29,6 @@ public class Jeu {
 	public static final int MONDE_FRONTIERES = 12;
 
 	/**
-	 * 
-	 * @param args
-	 */
-	public Jeu(String[] args) {
-		switch (args.length) {
-		case 0:
-			System.out
-					.println("Entrez en paramètres des arguments \n Pour plus d'aide tapez: java -jar JeuDeLaVie.jar -h");
-			break;
-		case 1:
-			if (args[0].equals("-name")) {
-				Jeu.ListeName();
-			} else {
-				if (args[0].equals("-h")) {
-					Jeu.ListeOptions();
-				} else
-					Jeu.ErrorArgs();
-			}
-			break;
-		case 3:
-			if (args[0].equals("-s")) {
-				try {
-					int duree = Integer.parseInt(args[1]);
-					File f = new File(args[2]);
-					if (f.exists() && f.isFile()) {
-						// À completer
-					}
-				} catch (NumberFormatException e) {
-					System.out.println("La durée doit être numerique \n");
-					Jeu.ErrorArgs();
-				}
-				// À completer
-			} else {
-				if (args[0].equals("-c")) {
-					try {
-						int max_duree = Integer.parseInt(args[1]);
-						File f = new File(args[2]);
-						if (f.exists() && f.isFile()) {
-							// À completer
-						}
-					} catch (NumberFormatException e) {
-						System.out.println("La durée doit être numerique \n");
-						Jeu.ErrorArgs();
-					}
-					// À completer
-				} else {
-					if (args[0].equals("-w")) {
-						try {
-							int max_duree = Integer.parseInt(args[1]);
-							File f = new File(args[2]);
-							if (f.isDirectory()) {
-								for (File nom : f.listFiles()) {
-									// À completer
-								}
-							} else {
-								Jeu.ErrorArgs();
-							}
-						} catch (NumberFormatException e) {
-							System.out
-									.println("La durée doit être numerique \n");
-							Jeu.ErrorArgs();
-						}
-						// À completer
-					} else
-						Jeu.ErrorArgs();
-				}
-			}
-		default:
-			Jeu.ErrorArgs();
-			break;
-		}
-	}
-
-	private static void ErrorArgs() {
-		System.out.println("Erreur d'arguments, essayez de nouveau");
-	}
-
-	private static void ListeName() {
-		System.out.println(" ***MEMBRES DU GROUPE*** \n");
-		System.out.println("> KOLUBAKO Tennessy \n");
-		System.out.println("> MAAROUFI Khaled \n");
-		System.out.println("> PADONOU LOUEMBET Jimmy \n");
-		System.out.println("> YOUGANG Adrielle \n");
-	}
-
-	private static void ListeOptions() {
-		System.out.println(" ***LISTE DES OPTIONS*** ");
-		System.out
-				.println("> java -jar JeuDeLaVie.jar -name ==> Affiche les noms et prénoms des participants");
-		System.out
-				.println("> java -jar JeuDeLaVie.jar -h ==> Rappel de la liste des options du programme");
-		System.out
-				.println("> java -jar JeuDeLaVie.jar -s d fichier.lif ==> Execution d'une simulation du jeu de durée d affichant les configurations du jeu avec le numéro de génération");
-		System.out
-				.println("> java -jar JeuDeLaVie.jar -c max fichier.lif ==> Calcul du type d’évolution du jeu avec ses caractéristiques (taille de la queue, période et déplacement); max représente la durée maximale de simulation pour déduire les résultats du calcul");
-		System.out
-				.println("> java -jar JeuDeLaVie.jar -w max dossier ==> Calcul du type d’évolution de tous les jeux contenus dans le dossier passé en paramètre et affiche les résultats sous la forme d’un fichier html ");
-	}
-
-	/**
 	 * Constructeur par defaut, créé un nouveau Jeu vide.
 	 */
 	public Jeu() {
@@ -174,17 +74,18 @@ public class Jeu {
 	 * @param maxY
 	 *            Abscisse à laquelle le terrain se termine.
 	 */
-	
-	  public Jeu(String name, ArrayList<Cellule> liste, int minX, int minY, int maxX, int maxY) {
-		  this.name = name; this.listeCellule = liste;
-		  this.type= Jeu.INDETERMINE;
-		  this.tailleQueue = 0;
-		  this.minX = minX; 
-		  this.minY =minY;
-		  this.maxX = maxX;
-		  this.maxY = maxY;
-	  }
-	 
+
+	public Jeu(String name, ArrayList<Cellule> liste, int minX, int minY,
+			int maxX, int maxY) {
+		this.name = name;
+		this.listeCellule = liste;
+		this.type = Jeu.INDETERMINE;
+		this.tailleQueue = 0;
+		this.minX = minX;
+		this.minY = minY;
+		this.maxX = maxX;
+		this.maxY = maxY;
+	}
 
 	/**
 	 * Ajoute une Cellule au Jeu.
@@ -225,7 +126,7 @@ public class Jeu {
 	 *            Type de monde ( Normal, Frontiere ou Circulaire ) du Jeu.
 	 * @return Le type d'évolution asymptotique du Jeu.
 	 */
-	public int evaluer(int nbTours, int typeMonde) {
+	public int evaluer(int nbTours, int typeMonde,boolean afficher) {
 		ArrayList<Cellule> listeCelTemoin = new ArrayList<Cellule>();
 		for (Cellule e : this.listeCellule) {
 			listeCelTemoin.add(e);
@@ -234,7 +135,10 @@ public class Jeu {
 		for (int i = 0; i < nbTours; i++) {
 			ArrayList<Cellule> temp = this.calculer(this.listeCellule,
 					typeMonde);
-
+			if(afficher==true){
+				this.display();
+				System.out.println("Génereation "+(i+1));
+			}
 			if (this.listeCellule.equals(temp)) {
 				this.type = Jeu.STABLE;
 				return Jeu.STABLE;
@@ -545,12 +449,15 @@ public class Jeu {
 		b.write("" + toFullHTML(listejeu));
 		b.close();
 	}
+
 	// Test si la cellule c existe
 	private boolean IsPresent(Cellule c) {
 		boolean suite = true;
 		Iterator<Cellule> it = listeCellule.listIterator();
 		while (it.hasNext() && suite) {
-			if (c.getX() < it.next().getX()) // Si l'absisse de listeCellule > à celle de c on retourne faux car elle existe pas
+			if (c.getX() < it.next().getX()) // Si l'absisse de listeCellule > à
+												// celle de c on retourne faux
+												// car elle existe pas
 				suite = false;
 			else {
 				if (c.equals(it.next()))
@@ -559,6 +466,7 @@ public class Jeu {
 		}
 		return false;
 	}
+
 	// Affichage du jeu
 	public void display() {
 		for (int i = minX; i < maxX; i++) {
