@@ -40,7 +40,7 @@ public class testJeu {
 		jeu.ajouterCellule(new Cellule(2,2));
 		jeu.ajouterCellule(new Cellule(3,2));
 		jeu.ajouterCellule(new Cellule(4,2));
-		org.junit.Assert.assertEquals(Jeu.OSCILLATEUR, jeu.evaluer(10, Jeu.MONDE_NORMAL,true));
+		org.junit.Assert.assertEquals(Jeu.OSCILLATEUR, jeu.evaluer(10, Jeu.MONDE_NORMAL,false));
 	}
 	
 	@Test
@@ -50,7 +50,7 @@ public class testJeu {
 		jeu.ajouterCellule(new Cellule(1,0));
 		jeu.ajouterCellule(new Cellule(0,1));
 		jeu.ajouterCellule(new Cellule(1,1));
-		org.junit.Assert.assertEquals(Jeu.STABLE, jeu.evaluer(10, Jeu.MONDE_NORMAL,true));
+		org.junit.Assert.assertEquals(Jeu.STABLE, jeu.evaluer(10, Jeu.MONDE_NORMAL,false));
 	}
 	
 	@Test
@@ -58,7 +58,7 @@ public class testJeu {
 		jeu.setListeCellule(new ArrayList<Cellule>());
 		jeu.ajouterCellule(new Cellule(0,0));
 		jeu.ajouterCellule(new Cellule(1,0));
-		org.junit.Assert.assertEquals(Jeu.MORT, jeu.evaluer(10, Jeu.MONDE_NORMAL,true));
+		org.junit.Assert.assertEquals(Jeu.MORT, jeu.evaluer(10, Jeu.MONDE_NORMAL,false));
 	}
 	
 	@Test
@@ -68,7 +68,7 @@ public class testJeu {
 		jeu.ajouterCellule(new Cellule(0,2));
 		jeu.ajouterCellule(new Cellule(1,2));
 		jeu.ajouterCellule(new Cellule(2,2));
-		org.junit.Assert.assertEquals(Jeu.VAISSEAU, jeu.evaluer(10, Jeu.MONDE_NORMAL,true));
+		org.junit.Assert.assertEquals(Jeu.VAISSEAU, jeu.evaluer(10, Jeu.MONDE_NORMAL,false));
 	}
 	
 	@Test
@@ -77,7 +77,7 @@ public class testJeu {
 		jeu.ajouterCellule(new Cellule(0,0));
 		jeu.ajouterCellule(new Cellule(0,1));
 		jeu.ajouterCellule(new Cellule(0,2));
-		org.junit.Assert.assertEquals(Jeu.MORT, jeu.evaluer(10, Jeu.MONDE_FRONTIERES,true));
+		org.junit.Assert.assertEquals(Jeu.MORT, jeu.evaluer(10, Jeu.MONDE_FRONTIERES,false));
 	}
 	
 	@Test
@@ -87,6 +87,18 @@ public class testJeu {
 		jeu.ajouterCellule(new Cellule(2,3));
 		jeu.ajouterCellule(new Cellule(2,4));
 		org.junit.Assert.assertEquals(Jeu.OSCILLATEUR, jeu.evaluer(10, Jeu.MONDE_CIRCULAIRE,false));
+	}
+	
+	@Test
+	public void testDisplay(){
+		jeu = new Jeu("test", new ArrayList<Cellule>(),0 , 0, 4, 4);
+		jeu.ajouterCellule(new Cellule(0,0));
+		jeu.ajouterCellule(new Cellule(1,1));
+		jeu.ajouterCellule(new Cellule(2,2));
+		jeu.ajouterCellule(new Cellule(3,3));
+		jeu.ajouterCellule(new Cellule(4,4));
+		String correct = "|*| | | | |\n| |*| | | |\n| | |*| | |\n| | | |*| |\n| | | | |*|";
+		org.junit.Assert.assertEquals(correct, jeu.display());
 	}
 
 }
