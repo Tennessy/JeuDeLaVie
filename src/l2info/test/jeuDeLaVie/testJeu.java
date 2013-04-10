@@ -63,12 +63,13 @@ public class testJeu {
 	
 	@Test
 	public void testEvaluerVaisseau(){
+		jeu = new Jeu();
 		jeu.ajouterCellule(new Cellule(1,0));
 		jeu.ajouterCellule(new Cellule(2,1));
 		jeu.ajouterCellule(new Cellule(0,2));
 		jeu.ajouterCellule(new Cellule(1,2));
 		jeu.ajouterCellule(new Cellule(2,2));
-		org.junit.Assert.assertEquals(Jeu.VAISSEAU, jeu.evaluer(10, Jeu.MONDE_NORMAL,false));
+		org.junit.Assert.assertEquals(Jeu.VAISSEAU, jeu.evaluer(10, Jeu.MONDE_NORMAL,true));
 	}
 	
 	@Test

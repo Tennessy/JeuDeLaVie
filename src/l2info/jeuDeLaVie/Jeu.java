@@ -197,11 +197,6 @@ public class Jeu {
 	 * @return Une ArrayList contenant la nouvelle disposition des Cellules.
 	 */
 	public ArrayList<Cellule> calculer(ArrayList<Cellule> listCel, int typeMonde) {
-		int minX = (this.minX < 999999 ? this.minX : 999999);
-		int minY = (this.minY < 999999 ? this.minY : 999999);
-		int maxX = (this.maxX > -999999 ? this.maxX : -999999);
-		int maxY = (this.maxY > -999999 ? this.maxY : -999999);
-		;
 
 		if (listCel.isEmpty()) {
 			return new ArrayList<Cellule>();
@@ -497,9 +492,23 @@ public class Jeu {
 				xActuel++;
 				if(xActuel == this.maxX+1){
 					tab += "|";
+					if(yActuel != this.maxY){
+						tab += "\n";
+						xActuel=this.minX;
+						yActuel++;
+					}
 				}
 
 			}
+			
+			if(xActuel < this.maxX+1){
+				while(xActuel < this.maxX+1){
+					tab += "| ";
+					xActuel++;
+				}
+				tab += "|";
+			}
+			
 		}
 		return tab;
 	}
