@@ -356,7 +356,7 @@ public class Jeu {
 	 *            ArrayList des Jeux dont on souhaite afficher les résultats.
 	 * @return String contenant le code HTML généré.
 	 */
-	private static StringBuffer toFullHTML(ArrayList<Jeu> listeJeu) {
+	public static StringBuffer toFullHTML(ArrayList<Jeu> listeJeu) {
 		StringBuffer html = new StringBuffer();
 		html.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"><html><head><title>Resultats Jeu de la vie</title></head><body> <table border=\"1\"> <tr><th>Nom</th><th>type</th><th>Taille queue</th></tr><tr>");
 		for (Jeu jeu : listeJeu) {
@@ -383,7 +383,7 @@ public class Jeu {
 					+ "</td></tr>");
 		}
 
-		html.append("</table> </body></html");
+		html.append("</table> </html></body>");
 		return html;
 	}
 
@@ -447,22 +447,22 @@ public class Jeu {
 		b.close();
 	}
 
-	// Test si la cellule c existe
-	private boolean IsPresent(Cellule c) {
-		boolean suite = true;
-		Iterator<Cellule> it = listeCellule.listIterator();
-		while (it.hasNext() && suite) {
-			if (c.getX() < it.next().getX()) // Si l'absisse de listeCellule > à
-				// celle de c on retourne faux
-				// car elle existe pas
-				suite = false;
-			else {
-				if (c.equals(it.next()))
-					return true;
-			}
-		}
-		return false;
-	}
+//	// Test si la cellule c existe
+//	private boolean IsPresent(Cellule c) {
+//		boolean suite = true;
+//		Iterator<Cellule> it = listeCellule.listIterator();
+//		while (it.hasNext() && suite) {
+//			if (c.getX() < it.next().getX()) // Si l'absisse de listeCellule > à
+//				// celle de c on retourne faux
+//				// car elle existe pas
+//				suite = false;
+//			else {
+//				if (c.equals(it.next()))
+//					return true;
+//			}
+//		}
+//		return false;
+//	}
 
 	// Affichage du jeu
 	public String display() {
