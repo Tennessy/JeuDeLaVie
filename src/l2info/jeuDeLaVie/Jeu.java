@@ -1,8 +1,8 @@
 package l2info.jeuDeLaVie;
 
 import java.io.BufferedReader;
+
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -117,7 +117,7 @@ public class Jeu {
 	 *            Type de monde ( Normal, Frontiere ou Circulaire ) du Jeu.
 	 * @return Le type d'évolution asymptotique du Jeu.
 	 */
-	public int evaluer(int nbTours, int typeMonde,boolean afficher) {
+	public int evaluer(int nbTours, int typeMonde, boolean afficher) {
 		int nbGenerationTemoin = 0;
 		ArrayList<Cellule> listeCelTemoin = new ArrayList<Cellule>();
 		for (Cellule e : this.listeCellule) {
@@ -128,9 +128,9 @@ public class Jeu {
 			ArrayList<Cellule> temp = this.calculer(this.listeCellule,
 					typeMonde);
 			this.nbGeneration++;
-			if(afficher){
+			if (afficher) {
 				System.out.println(this.display());
-				System.out.println("Genereation "+ nbGeneration);
+				System.out.println("Genereation " + nbGeneration);
 			}
 			if (this.listeCellule.equals(temp)) {
 				this.type = Jeu.STABLE;
@@ -254,13 +254,13 @@ public class Jeu {
 						&& liste.tete().getY() <= maxY) {
 					exterieur[0].ajouterElement(new CellulePotentielle(maxX,
 							liste.tete().getY(), false, liste.tete()
-							.getNbVoisin()));
+									.getNbVoisin()));
 				} else if (liste.tete().getX() == maxX + 1
 						&& liste.tete().getY() >= minY
 						&& liste.tete().getY() <= maxY) {
 					exterieur[1].ajouterElement(new CellulePotentielle(minX,
 							liste.tete().getY(), false, liste.tete()
-							.getNbVoisin()));
+									.getNbVoisin()));
 				} else if (liste.tete().getY() == minY - 1
 						&& liste.tete().getX() >= minX
 						&& liste.tete().getX() <= maxX) {
@@ -304,7 +304,7 @@ public class Jeu {
 
 			} else if (listeSomme.tete().exists()
 					&& (listeSomme.tete().getNbVoisin() == 3 || listeSomme
-					.tete().getNbVoisin() == 4)) {
+							.tete().getNbVoisin() == 4)) {
 				lCellule.add(new Cellule(listeSomme.tete().getX(), listeSomme
 						.tete().getY()));
 			}
@@ -328,7 +328,7 @@ public class Jeu {
 
 			else if (lc1.tete().getY() < lc2.tete().getY()
 					|| (lc1.tete().getY() == lc2.tete().getY() && lc1.tete()
-					.getX() < lc2.tete().getX())) {
+							.getX() < lc2.tete().getX())) {
 				if (lc1.queue() == null
 						|| (lc1.queue().tete().y > lc2.tete().getY() || (lc1
 								.queue().tete().getY() == lc2.tete().getY() && lc1
@@ -414,6 +414,7 @@ public class Jeu {
 	 *             Nom du fchier à lire
 	 */
 	public void loadGame(String src) throws IOException {
+		this.name = src;
 		ArrayList<Cellule> jeu = new ArrayList<Cellule>();
 		this.name = src;
 		Vector<String> monVector = new Vector<String>();
@@ -428,54 +429,51 @@ public class Jeu {
 		StringTokenizer stk = new StringTokenizer(s, " ");
 		this.ParamGame(stk);
 		for (int i = 0; i < monVector.size(); i++) {
-			if (this.maxY < this.maxY + monVector.get(i).length() - 1)
-				this.maxY += monVector.get(i).length() - 1;
+			if (this.maxX < this.maxX + monVector.get(i).length() - 1)
+				this.maxX += monVector.get(i).length() - 1;
 			for (int j = 0; j < monVector.get(i).length(); j++) {
 				if (monVector.get(i).charAt(j) == '*') {
-					jeu.add(new Cellule(this.minX + i, this.minY + j));
+					jeu.add(new Cellule(this.minX + j, this.minY + i));
 				}
 			}
 		}
-		this.maxX = this.minX + monVector.size() - 1;
+		this.maxY = this.minY + monVector.size() - 1;
 		b.close();
 		this.listeCellule = jeu;
 	}
 
-	public static void GenerateHTML(ArrayList<Jeu> listejeu) throws IOException {
-		BufferedWriter b = new BufferedWriter(new FileWriter("JeuDeLaVie.html"));
-		b.write("" + toFullHTML(listejeu));
-		b.close();
-	}
+	// // Test si la cellule c existe
+	// private boolean IsPresent(Cellule c) {
+	// boolean suite = true;
+	// Iterator<Cellule> it = listeCellule.listIterator();
+	// while (it.hasNext() && suite) {
+	// if (c.getX() < it.next().getX()) // Si l'absisse de listeCellule > à
+	// // celle de c on retourne faux
+	// // car elle existe pas
+	// suite = false;
+	// else {
+	// if (c.equals(it.next()))
+	// return true;
+	// }
+	// }
+	// return false;
+	// }
 
-//	// Test si la cellule c existe
-//	private boolean IsPresent(Cellule c) {
-//		boolean suite = true;
-//		Iterator<Cellule> it = listeCellule.listIterator();
-//		while (it.hasNext() && suite) {
-//			if (c.getX() < it.next().getX()) // Si l'absisse de listeCellule > à
-//				// celle de c on retourne faux
-//				// car elle existe pas
-//				suite = false;
-//			else {
-//				if (c.equals(it.next()))
-//					return true;
-//			}
-//		}
-//		return false;
-//	}
-
-	// Affichage du jeu
+	/**
+	 * Affichage du jeu
+	 * @return l'affichage du jeu
+	 */
 	public String display() {
 
 		String tab = "";
-		if(!this.listeCellule.isEmpty()){
+		if (!this.listeCellule.isEmpty()) {
 			int xActuel = this.minX;
 			int yActuel = this.minY;
-			for(Cellule c : this.listeCellule){
+			for (Cellule c : this.listeCellule) {
 
-				while(yActuel < c.getY()){
+				while (yActuel < c.getY()) {
 					tab += "| ";
-					for(;xActuel<this.maxX; xActuel++){
+					for (; xActuel < this.maxX; xActuel++) {
 						tab += "| ";
 					}
 					tab += "|\n";
@@ -483,32 +481,32 @@ public class Jeu {
 					xActuel = this.minX;
 				}
 
-				while(xActuel < c.getX()){
+				while (xActuel < c.getX()) {
 					tab += "| ";
 					xActuel++;
 				}
-				
+
 				tab += "|*";
 				xActuel++;
-				if(xActuel == this.maxX+1){
+				if (xActuel == this.maxX + 1) {
 					tab += "|";
-					if(yActuel != this.maxY){
+					if (yActuel != this.maxY) {
 						tab += "\n";
-						xActuel=this.minX;
+						xActuel = this.minX;
 						yActuel++;
 					}
 				}
 
 			}
-			
-			if(xActuel < this.maxX+1){
-				while(xActuel < this.maxX+1){
+
+			if (xActuel < this.maxX + 1) {
+				while (xActuel < this.maxX + 1) {
 					tab += "| ";
 					xActuel++;
 				}
 				tab += "|";
 			}
-			
+
 		}
 		return tab;
 	}
