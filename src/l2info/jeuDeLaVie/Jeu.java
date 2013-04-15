@@ -3,9 +3,11 @@ package l2info.jeuDeLaVie;
 import java.io.BufferedReader;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.StringTokenizer;
@@ -63,7 +65,6 @@ public class Jeu {
 	 * @param maxY
 	 *            Abscisse à laquelle le terrain se termine.
 	 */
-
 	public Jeu(String name, ArrayList<Cellule> liste, int minX, int minY,
 			int maxX, int maxY) {
 		this.name = name;
@@ -358,7 +359,7 @@ public class Jeu {
 	 */
 	public static StringBuffer toFullHTML(ArrayList<Jeu> listeJeu) {
 		StringBuffer html = new StringBuffer();
-		html.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"><html><head><title>Resultats Jeu de la vie</title></head><body> <table border=\"1\"> <tr><th>Nom</th><th>type</th><th>Taille queue</th></tr><tr>");
+		html.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"><html><head><title>Resultats Jeu de la vie</title></head><body> <table border=\"1\"> <tr><th>Nom</th><th>type</th><th>Taille queue</th><th>Periode</th></tr><tr>");
 		for (Jeu jeu : listeJeu) {
 			html.append("<td>" + jeu.name + "</td><td>");
 
@@ -380,6 +381,7 @@ public class Jeu {
 			}
 			html.append("</td><td>"
 					+ (jeu.tailleQueue > 0 ? jeu.tailleQueue : "Inconnue")
+					+ "</td><td>" + (jeu.periode > 0 ? jeu.periode : "Inconnue")
 					+ "</td></tr>");
 		}
 
@@ -461,6 +463,7 @@ public class Jeu {
 
 	/**
 	 * Affichage du jeu
+	 * 
 	 * @return l'affichage du jeu
 	 */
 	public String display() {

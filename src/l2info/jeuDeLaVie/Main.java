@@ -6,7 +6,6 @@ import java.util.*;
 public class Main {
 
 	public static void main(String[] args) throws IOException {
-
 		switch (args.length) {
 		case 0:
 			System.out
@@ -62,16 +61,19 @@ public class Main {
 							int typeMonde = Main.TypeMonde(args[3]);
 							if (f.isDirectory() && typeMonde != 0) {
 								ArrayList<Jeu> listeJeu = new ArrayList<Jeu>();
-								for (File nom : f.listFiles()) {
-									if (Main.IsFichierLif(nom.getName())) {
+								for (File fichier : f.listFiles()) {
+									String nom = f.getName().concat(
+											"/" + fichier.getName());
+									if (Main.IsFichierLif(nom)) {
 										Jeu start = new Jeu();
-										start.loadGame(nom.getName());
+										start.loadGame(nom);
 										start.evaluer(max_duree, typeMonde,
 												false);
 										listeJeu.add(start);
 									}
 								}
-								System.out.println(Jeu.toFullHTML(listeJeu));
+								System.out.println(Jeu.toFullHTML(listeJeu)
+										.toString());
 							} else {
 								Main.ErrorArgs();
 							}
@@ -104,10 +106,10 @@ public class Main {
 	 */
 	public static void ListeName() {
 		System.out.println(" ***MEMBRES DU GROUPE*** \n");
-		System.out.println("> KOLUBAKO Tennessy \n");
-		System.out.println("> MAAROUFI Khaled \n");
-		System.out.println("> PADONOU LOUEMBET Jimmy \n");
-		System.out.println("> YOUGANG Adrielle \n");
+		System.out.println("> KOLUBAKO Tennessy ");
+		System.out.println("> MAAROUFI Khaled ");
+		System.out.println("> PADONOU LOUEMBET Jimmy ");
+		System.out.println("> YOUGANG Adrielle ");
 	}
 
 	/**
@@ -148,10 +150,10 @@ public class Main {
 	 */
 	public static boolean IsFichierLif(String fichier) {
 		if (fichier.contains(".lif")) {
-			;
 			File f = new File(fichier);
-			if (f.exists() && f.isFile())
+			if (f.exists() && f.isFile()) {
 				return true;
+			}
 		}
 		return false;
 	}

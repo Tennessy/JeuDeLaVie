@@ -130,10 +130,9 @@ public class testJeu {
 		jeux.add(jeu);
 		jeux.add(jeu2);
 		org.junit.Assert
-				.assertEquals(
-						"<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"><html><head><title>Resultats Jeu de la vie</title></head><body> <table border=\"1\"> <tr><th>Nom</th><th>type</th><th>Taille queue</th></tr><tr><td>test</td><td>Mort</td><td>3</td></tr><td>test2</td><td>Mort</td><td>1</td></tr></table> </html></body>",
-						Jeu.toFullHTML(jeux).toString());
-
+		.assertEquals(
+				"<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"><html><head><title>Resultats Jeu de la vie</title></head><body> <table border=\"1\"> <tr><th>Nom</th><th>type</th><th>Taille queue</th><th>Periode</th></tr><tr><td>test</td><td>Mort</td><td>3</td><td>3</td></tr><td>test2</td><td>Mort</td><td>1</td><td>1</td></tr></table> </html></body>",
+				Jeu.toFullHTML(jeux).toString());
 	}
 
 }
