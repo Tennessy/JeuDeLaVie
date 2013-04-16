@@ -1,0 +1,32 @@
+#Life 1.06
+#D p2 oscillators
+#D 
+#D By various artists - mostly well-
+#D known, but most of these are also
+#D easy to generate with a search
+#D program.
+#D 
+#D Other p2's in this collection:
+#D POLES, QUILT, LONEDOTS, TWINDOTS,
+#D VENETIAN, VENETIAN3.
+#N
+0 4
+1 3
+-1 3
+2 2
+0 2
+-1 2
+3 1
+1 1
+2 0
+1 0
+-3 -1
+-2 -2
+0 -1
+-1 -1
+0 -2
+-1 -3
+-2 1
+-3 1
+-2 0
+-4 0

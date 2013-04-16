@@ -148,7 +148,7 @@ public class Jeu {
 			if (this.listeCellule.isEmpty()) {
 				this.type = Jeu.MORT;
 				this.tailleQueue = this.nbGeneration;
-				this.periode = nbGenerationTemoin - this.nbGeneration;
+				this.periode = 1;
 				return MORT;
 			} else if (this.listeCellule.equals(listeCelTemoin)) {
 				this.type = Jeu.OSCILLATEUR;
