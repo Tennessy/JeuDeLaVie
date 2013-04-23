@@ -30,6 +30,7 @@ public class Main {
 						Jeu start = new Jeu();
 						start.loadGame(args[2]);
 						start.evaluer(duree, typeMonde, true);
+						System.out.println(start.getResult());
 					} else
 						Main.ErrorArgs();
 				} catch (NumberFormatException e) {
@@ -45,8 +46,8 @@ public class Main {
 							Jeu start = new Jeu();
 							start.loadGame(args[2]);
 							start.evaluer(max_duree, typeMonde, true);
-							// À completer ou pas
-							// //System.out.println("Periode queue et evolution");
+							System.out.println(start.getResult());
+							
 						} else
 							Main.ErrorArgs();
 					} catch (NumberFormatException e) {

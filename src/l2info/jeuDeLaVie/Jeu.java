@@ -1,5 +1,6 @@
 package l2info.jeuDeLaVie;
 
+import java.awt.Event;
 import java.io.BufferedReader;
 
 import java.io.FileReader;
@@ -126,8 +127,15 @@ public class Jeu {
 					typeMonde);
 			this.nbGeneration++;
 			if (afficher) {
+				System.out.print((char)Event.ESCAPE + "8");
+				System.out.print((char)Event.ESCAPE + "[J");
 				System.out.println(this.display());
 				System.out.println("Genereation " + nbGeneration);
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
 			}
 			if (this.listeCellule.equals(temp)) {
 				this.type = Jeu.STABLE;
@@ -508,6 +516,29 @@ public class Jeu {
 
 		}
 		return tab;
+	}
+	
+	public String getResult(){
+		String result = "Type d'evolution : ";
+		switch (this.type) {
+		case Jeu.INDETERMINE:
+			result += "Indetermine";
+			break;
+		case Jeu.MORT:
+			result += "Mort";
+			break;
+		case Jeu.OSCILLATEUR:
+			result += "Oscillateur";
+			break;
+		case Jeu.STABLE:
+			result += "Stable";
+			break;
+		case Jeu.VAISSEAU:
+			result += "Vaisseau";
+		}
+		result += "\nTaille de la queue : " + this.tailleQueue + "\nPeriode : " + this.periode;
+		return result;
+		
 	}
 
 }
