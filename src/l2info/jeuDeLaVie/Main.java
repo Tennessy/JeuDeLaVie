@@ -72,7 +72,7 @@ public class Main {
 										listeJeu.add(start);
 									}
 								}
-								System.out.println(Jeu.toFullHTML(listeJeu)
+								System.out.println(Jeu.toFullHTML(listeJeu,args[3].toUpperCase())
 										.toString());
 							} else {
 								Main.ErrorArgs();

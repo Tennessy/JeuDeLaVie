@@ -51,12 +51,28 @@ QUEUE:18
 PÉRIODE:18
 
 -per3.lif en mode circulaire
-TYPE D'ÉVOLUTION:?
-QUEUE:?
-PÉRIODE:?
+TYPE D'ÉVOLUTION:Oscillateur
+QUEUE:61
+PÉRIODE:61
 
 -per3.lif en mode frontieres
-TYPE D'ÉVOLUTION:?
-QUEUE:?
-PÉRIODE:?
+TYPE D'ÉVOLUTION:Oscillateur
+QUEUE:54
+PÉRIODE:54
+
+-vaiss.lif en mode normal
+TYPE D'ÉVOLUTION:Vaisseau
+QUEUE:4
+PÉRIODE:4
+
+-vaiss.lif en mode circulaire
+TYPE D'ÉVOLUTION:Mort
+QUEUE:4
+PÉRIODE:1
+
+-vaiss.lif en mode frontiere
+TYPE D'ÉVOLUTION:Mort
+QUEUE:13
+PÉRIODE:1
+
 

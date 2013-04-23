@@ -2,12 +2,8 @@ package l2info.jeuDeLaVie;
 
 import java.io.BufferedReader;
 
-import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.StringTokenizer;
@@ -357,9 +353,9 @@ public class Jeu {
 	 *            ArrayList des Jeux dont on souhaite afficher les résultats.
 	 * @return String contenant le code HTML généré.
 	 */
-	public static StringBuffer toFullHTML(ArrayList<Jeu> listeJeu) {
+	public static StringBuffer toFullHTML(ArrayList<Jeu> listeJeu, String s) {
 		StringBuffer html = new StringBuffer();
-		html.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"><html><head><title>Resultats Jeu de la vie</title></head><body> <table border=\"1\"> <tr><th>Nom</th><th>type</th><th>Taille queue</th><th>Periode</th></tr><tr>");
+		html.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"><html><head><title>Resultats Jeu de la vie en monde "+s+" </title></head><body> <table border=\"1\"> <tr><th>Nom</th><th>type</th><th>Taille queue</th><th>Periode</th></tr><tr>");
 		for (Jeu jeu : listeJeu) {
 			html.append("<td>" + jeu.name + "</td><td>");
 
