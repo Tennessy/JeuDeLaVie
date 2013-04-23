@@ -1,0 +1,62 @@
+Résultats d'expérimentation des fichiers LIF :
+
+-Fichier.lif en mode normal
+TYPE D'ÉVOLUTION: Mort
+PÉRIODE:1
+QUEUE:23
+
+-Fichier.lif en mode frontière
+TYPE D'ÉVOLUTION: Oscillateur
+PÉRIODE:68
+QUEUE:68
+
+-Fichier.lif en mode circulaire
+TYPE D'ÉVOLUTION: Oscillateur
+PÉRIODE:151
+QUEUE:151
+
+-sta456.lif en mode normal
+TYPE D'ÉVOLUTION:Stable
+PÉRIODE:1
+QUEUE:1
+
+-sta456.lif en mode circulaire
+TYPE D'ÉVOLUTION:Oscillateur
+PÉRIODE:1736
+QUEUE:1736
+
+-sta456.lif en mode frontiere
+TYPE D'ÉVOLUTION:Stable
+PÉRIODE:1
+QUEUE:1
+
+-per2.lif en mode normal
+TYPE D'ÉVOLUTION:Oscillateur
+QUEUE:2
+PÉRIODE:2
+
+-per2.lif en mode frontiere
+TYPE D'ÉVOLUTION:Oscillateur
+QUEUE:2
+PÉRIODE:2
+
+-per2.lif en mode circulaire
+TYPE D'ÉVOLUTION:Mort
+QUEUE:133
+PÉRIODE:1
+
+-per3.lif en mode normal
+TYPE D'ÉVOLUTION:Oscillateur
+QUEUE:18
+PÉRIODE:18
+
+-per3.lif en mode circulaire
+TYPE D'ÉVOLUTION:?
+QUEUE:?
+PÉRIODE:?
+
+-per3.lif en mode frontieres
+TYPE D'ÉVOLUTION:?
+QUEUE:?
+PÉRIODE:?
+

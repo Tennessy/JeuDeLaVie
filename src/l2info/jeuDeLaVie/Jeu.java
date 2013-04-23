@@ -404,8 +404,8 @@ public class Jeu {
 			} catch (Exception e) {
 			}
 		}
-		this.minX = this.maxX = nb.get(0);
-		this.minY = this.maxY = nb.get(1);
+		this.minX = this.maxX = nb.get(1);
+		this.minY = this.maxY = nb.get(0);
 	}
 
 	/**
