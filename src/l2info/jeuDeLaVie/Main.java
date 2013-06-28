@@ -170,11 +170,11 @@ public class Main {
 	 */
 	public static int TypeMonde(String s) {
 		if (s.equals("normal"))
-			return Jeu.MONDE_NORMAL;
+			return TypeEvolution.MONDE_NORMAL;
 		if (s.equals("circulaires"))
-			return Jeu.MONDE_CIRCULAIRE;
+			return TypeEvolution.MONDE_CIRCULAIRE;
 		if (s.equals("frontieres"))
-			return Jeu.MONDE_FRONTIERES;
+			return TypeEvolution.MONDE_FRONTIERES;
 		return 0;
 	}
 

@@ -85,5 +85,37 @@ public class ListeCellulePotentielle {
 		temp.suivant = this;
 		return temp;
 	}
+	
+	public void additionCelPot(ListeCellulePotentielle lc2) {
+		ListeCellulePotentielle lc1 = this;
+		while (lc2 != null) {
+			if (lc1.tete().getY() == lc2.tete().getY()
+					&& lc1.tete().getX() == lc2.tete().getX()) {
+				lc1.tete().ajouterVoisin();
+				if (lc2.tete().exists())
+					lc1.tete().setExist(true);
+				lc2 = lc2.queue();
+			}
+
+			else if (lc1.tete().getY() < lc2.tete().getY()
+					|| (lc1.tete().getY() == lc2.tete().getY() && lc1.tete()
+							.getX() < lc2.tete().getX())) {
+				if (lc1.queue() == null
+						|| (lc1.queue().tete().y > lc2.tete().getY() || (lc1
+								.queue().tete().getY() == lc2.tete().getY() && lc1
+								.queue().tete().getX() > lc2.tete().getX()))) {
+					lc1.insertElementAfter(lc2.tete());
+					lc1 = lc1.queue();
+					lc2 = lc2.queue();
+				} else {
+					if (lc1.queue() != null)
+						lc1 = lc1.queue();
+				}
+			} else {
+				lc1 = lc1.AjouterTete(lc2.tete());
+				lc2 = lc2.queue();
+			}
+		}
+	}
 
 }
