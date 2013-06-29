@@ -146,6 +146,8 @@ public class Jeu {
 
 		if (this.listeCellule.isEmpty()) {
 			this.listeCellule =  new ArrayList<Cellule>();
+			this.nbGeneration++;
+			
 			return;
 		}
 
