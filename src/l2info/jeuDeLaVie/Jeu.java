@@ -1,18 +1,10 @@
 package l2info.jeuDeLaVie;
 
-import java.awt.Event;
-import java.io.BufferedReader;
-
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.StringTokenizer;
-import java.util.Vector;
 
 public class Jeu {
 	protected ArrayList<Cellule> listeCellule;
-	private int type;
 	private String name;
 	private int tailleQueue;
 	private int minX;
@@ -21,6 +13,11 @@ public class Jeu {
 	private int maxY;
 	protected int nbGeneration;
 	private int periode;
+	private int typeMonde;
+	
+	public static final int MONDE_NORMAL = 10;
+	public static final int MONDE_CIRCULAIRE = 11;
+	public static final int MONDE_FRONTIERES = 12;
 
 
 	/**
@@ -28,7 +25,6 @@ public class Jeu {
 	 */
 	public Jeu() {
 		listeCellule = new ArrayList<Cellule>();
-		setType(TypeEvolution.INDETERMINE);
 		this.nbGeneration = 0;
 		this.setName("");
 		this.setTailleQueue(0);
@@ -37,7 +33,25 @@ public class Jeu {
 		this.setMaxX(-999999);
 		this.setMaxY(-999999);
 		this.setPeriode(0);
+		this.typeMonde = Jeu.MONDE_NORMAL;
 	}
+	
+	public Jeu(Jeu jeu){
+		this.listeCellule = new ArrayList<Cellule>();
+		for(Cellule c : jeu.listeCellule){
+			this.listeCellule.add(c);
+		}
+		this.nbGeneration = jeu.getNbGeneration();
+		this.setName(jeu.getName());
+		this.setTailleQueue(jeu.getTailleQueue());
+		this.setMinX(jeu.getMinX());
+		this.setMinY(jeu.getMinY());
+		this.setMaxX(jeu.getMaxX());
+		this.setMaxY(jeu.getMaxY());
+		this.setPeriode(jeu.getPeriode());
+		this.typeMonde = jeu.getTypeMonde();
+	}
+
 
 	/**
 	 * Créé un Jeu, à partir d'une ArrayList, avec un nom et les coordonnées
@@ -60,7 +74,6 @@ public class Jeu {
 			int maxX, int maxY) {
 		this.setName(name);
 		this.listeCellule = liste;
-		this.setType(TypeEvolution.INDETERMINE);
 		this.setPeriode(0);
 		this.setTailleQueue(0);
 		this.setMinX(minX);
@@ -68,6 +81,7 @@ public class Jeu {
 		this.setMaxX(maxX);
 		this.setMaxY(maxY);
 		this.nbGeneration = 0;
+		this.typeMonde = Jeu.MONDE_NORMAL;
 	}
 
 	/**
@@ -101,68 +115,6 @@ public class Jeu {
 	}
 
 	/**
-	 * Calcule l'évolution du Jeu sur un nombre de tours donné.
-	 * 
-	 * @param nbTours
-	 *            Nombre de tours à effectuer.
-	 * @param typeMonde
-	 *            Type de monde ( Normal, Frontiere ou Circulaire ) du Jeu.
-	 * @return Le type d'évolution asymptotique du Jeu.
-	 */
-	public int evaluer(int nbTours, int typeMonde, boolean afficher) {
-		int nbGenerationTemoin = 0;
-		ArrayList<Cellule> listeCelTemoin = new ArrayList<Cellule>();
-		for (Cellule e : this.listeCellule) {
-			listeCelTemoin.add(e);
-		}
-
-		for (int i = 0; i < nbTours; i++) {
-			ArrayList<Cellule> temp = this.calculer(this.listeCellule, typeMonde);
-			this.nbGeneration++;
-			if (afficher) {
-				System.out.print((char)Event.ESCAPE + "8");
-				System.out.print((char)Event.ESCAPE + "[J");
-				System.out.println(output.display());
-				System.out.println("Genereation " + nbGeneration);
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
-			}
-			if (this.listeCellule.equals(temp)) {
-				this.setType(TypeEvolution.STABLE);
-				this.setTailleQueue(this.nbGeneration);
-				this.setPeriode(1);
-				return TypeEvolution.STABLE;
-			}
-
-			this.listeCellule = temp;
-			listeCelTemoin = this.calculer(listeCelTemoin, typeMonde);
-			listeCelTemoin = this.calculer(listeCelTemoin, typeMonde);
-			nbGenerationTemoin += 2;
-
-			if (this.listeCellule.isEmpty()) {
-				this.setType(TypeEvolution.MORT);
-				this.setTailleQueue(this.nbGeneration);
-				this.setPeriode(1);
-				return TypeEvolution.MORT;
-			} else if (this.listeCellule.equals(listeCelTemoin)) {
-				this.setType(TypeEvolution.OSCILLATEUR);
-				this.setTailleQueue(this.nbGeneration);
-				this.setPeriode(nbGenerationTemoin - this.nbGeneration);
-				return TypeEvolution.OSCILLATEUR;
-			} else if (isTranslation(this.listeCellule, listeCelTemoin)) {
-				this.setType(TypeEvolution.VAISSEAU);
-				this.setTailleQueue(this.nbGeneration);
-				this.setPeriode(nbGenerationTemoin - this.nbGeneration);
-				return TypeEvolution.VAISSEAU;
-			}
-		}
-		return TypeEvolution.INDETERMINE;
-	}
-
-	/**
 	 * Calcule l'evolution sur un tour des Cellules du Jeu.
 	 * 
 	 * @param listCel
@@ -171,10 +123,11 @@ public class Jeu {
 	 *            Type de monde dans lequel ce passe la simulation.
 	 * @return Une ArrayList contenant la nouvelle disposition des Cellules.
 	 */
-	public ArrayList<Cellule> calculer(ArrayList<Cellule> listCel, int typeMonde) {
+	public void calculer() {
 
-		if (listCel.isEmpty()) {
-			return new ArrayList<Cellule>();
+		if (this.listeCellule.isEmpty()) {
+			this.listeCellule =  new ArrayList<Cellule>();
+			return;
 		}
 
 		ListeCellulePotentielle[] listesCellulePot = new ListeCellulePotentielle[9];
@@ -182,7 +135,8 @@ public class Jeu {
 			listesCellulePot[i] = new ListeCellulePotentielle();
 		}
 
-		Iterator<Cellule> itCels = listCel.iterator();
+		//Creation des listes contenant les coordonn�es des "cases" adjacantes � une cellule vivante.
+		Iterator<Cellule> itCels = this.listeCellule.iterator();
 		while (itCels.hasNext()) {
 			Cellule cpTemp = itCels.next();
 			setMinX(Math.min(getMinX(), cpTemp.getX()));
@@ -211,18 +165,22 @@ public class Jeu {
 
 		}
 
+		//Addition de toute les listes afin d'en obtenir qu'une contenant toutes les "cases" adjacantes.
 		ListeCellulePotentielle listeSomme = listesCellulePot[0];
 		for (int i = 1; i < 9; i++) {
 			ListeCellulePotentielle first = listeSomme;
 			first.additionCelPot(listesCellulePot[i]);
 		}
 
-		if (typeMonde == TypeEvolution.MONDE_CIRCULAIRE) {
+		
+		if (typeMonde == Jeu.MONDE_CIRCULAIRE) {
 			ListeCellulePotentielle liste = listeSomme;
 			ListeCellulePotentielle[] exterieur = new ListeCellulePotentielle[4];
 			for (int i = 0; i < exterieur.length; i++) {
 				exterieur[i] = new ListeCellulePotentielle();
 			}
+			
+			//Dans le cas du monde circulaire, on recopie toute les cellules d'un bord sur le bord oppos�.
 			while (liste != null) {
 				if (liste.tete().getX() == getMinX() - 1
 						&& liste.tete().getY() >= getMinY()
@@ -252,6 +210,7 @@ public class Jeu {
 				liste = liste.queue();
 			}
 
+			//On additionne les cellules calculer precedemment � celle que l'on possede deja.
 			for (int i = 0; i < exterieur.length; i++) {
 				liste = listeSomme;
 				if (exterieur[i].tete() != null)
@@ -259,12 +218,15 @@ public class Jeu {
 			}
 		}
 
+		
+		//On cree une liste final contenant les cellules possedant suffisement de voisin pour rester/devenir vivante.
 		ArrayList<Cellule> lCellule = new ArrayList<Cellule>();
 		while (listeSomme != null) {
 			if (!listeSomme.tete().exists()
 					&& listeSomme.tete().getNbVoisin() == 3) {
-				if (typeMonde == TypeEvolution.MONDE_FRONTIERES
-						|| typeMonde == TypeEvolution.MONDE_CIRCULAIRE) {
+				//Dans le cas des mondes frontieres et circulaire, on verifie que les coordonnees des cellules ne depassent pas la taille du jeu.
+				if (typeMonde == Jeu.MONDE_FRONTIERES
+						|| typeMonde == Jeu.MONDE_CIRCULAIRE) {
 					if (listeSomme.tete().getX() > getMinX()
 							&& listeSomme.tete().getY() >= getMinY()
 							&& listeSomme.tete().getX() <= getMaxX()
@@ -285,8 +247,31 @@ public class Jeu {
 			}
 			listeSomme = listeSomme.queue();
 		}
-
-		return lCellule;
+		this.listeCellule = lCellule;
+		this.nbGeneration++;
+	}
+	
+	public static int TypeMonde(String s) {
+		if (s.equals("normal"))
+			return Jeu.MONDE_NORMAL;
+		if (s.equals("circulaires"))
+			return Jeu.MONDE_CIRCULAIRE;
+		if (s.equals("frontieres"))
+			return Jeu.MONDE_FRONTIERES;
+		return 0;
+	}
+	
+	public static String TypeMonde(int type) {
+		switch(type){
+		case Jeu.MONDE_NORMAL:
+			return "normal";
+		case Jeu.MONDE_CIRCULAIRE:
+			return "circulaire";
+		case Jeu.MONDE_FRONTIERES : 
+			return "frontiere";
+		default : 
+			return "inconnu";
+		}
 	}
 
 	public String getName() {
@@ -331,14 +316,6 @@ public class Jeu {
 		return maxY;
 	}
 
-	public int getType() {
-		return type;
-	}
-
-	public void setType(int type) {
-		this.type = type;
-	}
-
 	public int getTailleQueue() {
 		return tailleQueue;
 	}
@@ -354,5 +331,16 @@ public class Jeu {
 	public void setPeriode(int periode) {
 		this.periode = periode;
 	}
-
+	
+	public int getTypeMonde() {
+		return this.typeMonde;
+	}
+	
+	public void setTypeMonde(int typeMonde) {
+		this.typeMonde = typeMonde;
+	}
+	
+	public int getNbGeneration(){
+		return this.nbGeneration;
+	}
 }

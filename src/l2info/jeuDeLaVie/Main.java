@@ -1,15 +1,20 @@
 package l2info.jeuDeLaVie;
 
+import java.awt.Event;
 import java.io.*;
 import java.util.*;
+
+import l2info.inputOutput.jeuDeLaVie.Input;
+import l2info.inputOutput.jeuDeLaVie.Output;
 
 public class Main {
 
 	public static void main(String[] args) throws IOException {
+		
 		switch (args.length) {
 		case 0:
 			System.out
-					.println("Entrez en paramètres des arguments \n Pour plus d'aide tapez: java -jar JeuDeLaVie.jar -h");
+					.println("Entrez en parametre des arguments \n Pour plus d'aide tapez: java -jar JeuDeLaVie.jar -h");
 			break;
 		case 1:
 			if (args[0].equals("-name")) {
@@ -25,33 +30,43 @@ public class Main {
 			if (args[0].equals("-s")) {
 				try {
 					int duree = Integer.parseInt(args[1]);
-					int typeMonde = Main.TypeMonde(args[3]);
-					if (Main.IsFichierLif(args[2]) && typeMonde != 0) {
-						Jeu start = new Jeu();
-						start.loadGame(args[2]);
-						start.evaluer(duree, typeMonde, true);
-						System.out.println(start.getResult());
-					} else
-						Main.ErrorArgs();
+					int typeMonde = Jeu.TypeMonde(args[3]);
+					
+					simulation(duree, typeMonde, args[2]);
+//					
+//					if (Input.IsFichierLif(args[2]) && typeMonde != 0) {
+//						Jeu start = Input.loadGame(args[2]);
+//						start.setTypeMonde(typeMonde);
+//						for(int i = 0; i<duree; i++){
+//							
+//						}
+//						System.out.println(start.getResult());
+//					} else
+//						Main.ErrorArgs();
+					
 				} catch (NumberFormatException e) {
-					System.out.println("La durée doit être numerique \n");
+					System.out.println("La duree doit etre numerique \n");
 					ErrorArgs();
 				}
 			} else {
 				if (args[0].equals("-c")) {
 					try {
 						int max_duree = Integer.parseInt(args[1]);
-						int typeMonde = Main.TypeMonde(args[3]);
-						if (Main.IsFichierLif(args[2]) && typeMonde != 0) {
-							Jeu start = new Jeu();
-							start.loadGame(args[2]);
-							start.evaluer(max_duree, typeMonde, true);
-							System.out.println(start.getResult());
-							
-						} else
-							Main.ErrorArgs();
+						int typeMonde = Jeu.TypeMonde(args[3]);
+						
+						System.out.println(Output.getResult(calculerEvolution(max_duree, typeMonde, args[2])));
+						
+//						if (Main.IsFichierLif(args[2]) && typeMonde != 0) {
+//							Jeu start = new Jeu();
+//							start.loadGame(args[2]);
+//							start.evaluer(max_duree, typeMonde, true);
+//							System.out.println(start.getResult());
+//							
+//						} else
+//							Main.ErrorArgs();
+						
 					} catch (NumberFormatException e) {
-						System.out.println("La durée doit être numerique \n");
+						System.out.println("La duree doit etre numerique \n");
 						Main.ErrorArgs();
 					}
 				} else {
@@ -59,28 +74,23 @@ public class Main {
 						try {
 							int max_duree = Integer.parseInt(args[1]);
 							File f = new File(args[2]);
-							int typeMonde = Main.TypeMonde(args[3]);
-							if (f.isDirectory() && typeMonde != 0) {
-								ArrayList<Jeu> listeJeu = new ArrayList<Jeu>();
+							int typeMonde = Jeu.TypeMonde(args[3]);
+							if (f.isDirectory()) {
+								
+								ArrayList<TypeEvolution> listeEvo = new ArrayList<TypeEvolution>();
 								for (File fichier : f.listFiles()) {
-									String nom = f.getName().concat(
-											"/" + fichier.getName());
-									if (Main.IsFichierLif(nom)) {
-										Jeu start = new Jeu();
-										start.loadGame(nom);
-										start.evaluer(max_duree, typeMonde,
-												false);
-										listeJeu.add(start);
+									String nom = f.getName().concat("/" + fichier.getName());
+										listeEvo.add(calculerEvolution(max_duree, typeMonde, nom));
 									}
-								}
-								System.out.println(Jeu.toFullHTML(listeJeu,args[3].toUpperCase())
-										.toString());
-							} else {
+								System.out.println(Output.toHtml(listeEvo));
+								
+							} 
+							else {
 								Main.ErrorArgs();
 							}
 						} catch (NumberFormatException e) {
 							System.out
-									.println("La durée doit être numerique \n");
+									.println("La duree doit etre numerique \n");
 							Main.ErrorArgs();
 						}
 					} else
@@ -88,6 +98,7 @@ public class Main {
 				}
 			}
 			break;
+			
 		default:
 			Main.ErrorArgs();
 			break;
@@ -103,7 +114,7 @@ public class Main {
 	}
 
 	/**
-	 * Affichage des noms et prénoms des membres du groupes
+	 * Affichage des noms et prenoms des membres du groupes
 	 */
 	public static void ListeName() {
 		System.out.println(" ***MEMBRES DU GROUPE*** \n");
@@ -141,41 +152,43 @@ public class Main {
 		System.out
 				.println("> java -jar JeuDeLaVie.jar -w max dossier frontieres ==> Calcul du type d’évolution de tous les jeux contenus dans le dossier passé en paramètre en monde frontiere et affiche les résultats sous la forme d’un fichier html ");
 	}
-
-	/**
-	 * Test de l'existence du fichier et de son type
-	 * 
-	 * @param fichier
-	 *            le nom du fichier
-	 * @return true si le fichier existe et est de type .lif
-	 */
-	public static boolean IsFichierLif(String fichier) {
-		if (fichier.contains(".lif")) {
-			File f = new File(fichier);
-			if (f.exists() && f.isFile()) {
-				return true;
+	
+	public static void simulation(int duree, int typeMonde, String filename){
+		if(typeMonde != 0){
+			try{
+				Jeu jeu = Input.loadGame(filename);
+				jeu.setTypeMonde(typeMonde);
+				
+				for(int i=0; i<duree; i++){
+					System.out.print((char)Event.ESCAPE + "8");
+			  		System.out.print((char)Event.ESCAPE + "[J");
+					System.out.println(Output.display(jeu));
+					System.out.println("Generation N�" + jeu.getNbGeneration());
+					
+					jeu.calculer();
+					Thread.sleep(1000);
+				}
+				
+			}catch(Exception e){
+				System.out.println("Erreur lors de la lecture du fichier");
+			}
+			
+		}
+	}
+	
+	public static TypeEvolution calculerEvolution(int duree, int typeMonde, String filename){
+		TypeEvolution typeEvo = new TypeEvolution();
+		if(typeMonde != 0){
+			try{
+				Jeu jeu = Input.loadGame(filename);
+				jeu.setTypeMonde(typeMonde);
+				typeEvo.calculerTypeEvolution(jeu, duree);
+				System.out.println(Output.getResult(typeEvo));
+			}catch(Exception e){
+				System.out.println("Erreur lors de la lecture du fichier");
 			}
 		}
-		return false;
-	}
-
-	/**
-	 * Determine le type de jeu voulu par l'utilisateur
-	 * 
-	 * @param s
-	 *            String ayant pour valeur le 4e argument ajouté par
-	 *            l'utilisateur
-	 * @return Un entier different de 0 si le type de jeu specifié par
-	 *         l'utilisateur correspond à celui inscrit dans les options de jeu
-	 */
-	public static int TypeMonde(String s) {
-		if (s.equals("normal"))
-			return TypeEvolution.MONDE_NORMAL;
-		if (s.equals("circulaires"))
-			return TypeEvolution.MONDE_CIRCULAIRE;
-		if (s.equals("frontieres"))
-			return TypeEvolution.MONDE_FRONTIERES;
-		return 0;
+		return typeEvo;
 	}
 
 }
