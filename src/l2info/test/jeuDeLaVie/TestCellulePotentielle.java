@@ -14,11 +14,13 @@ public class TestCellulePotentielle {
 		celP = new CellulePotentielle(0, 0, true, 1);
 	}
 
+	//Test l'existance d'une Cellule.
 	@Test
 	public void testExists() {
 		org.junit.Assert.assertEquals(true,celP.exists());
 	}
 	
+	//Test la definition de l'existance d'une Cellule.
 	@Test
 	public void testSetExist() {
 		this.celP.setExist(false);
@@ -27,6 +29,7 @@ public class TestCellulePotentielle {
 		org.junit.Assert.assertEquals(true,celP.exists());
 	}
 	
+	//Test l'ajout d'un voisin à une Cellule.
 	@Test
 	public void testAjouterVoisin() {
 		celP.ajouterVoisin();
@@ -36,6 +39,7 @@ public class TestCellulePotentielle {
 		org.junit.Assert.assertEquals(4,celP.getNbVoisin());
 	}
 	
+	//Test l'obtention du nombre de voisin d'une cellule.
 	@Test
 	public void testGetNbVoisin() {
 		org.junit.Assert.assertEquals(1,celP.getNbVoisin());
@@ -43,6 +47,7 @@ public class TestCellulePotentielle {
 		org.junit.Assert.assertEquals(1,a.getNbVoisin());
 	}
 	
+	//Test l'egalité de deux CellulePotentielle.
 	@Test
 	public void testEquals() {
 		CellulePotentielle a=new CellulePotentielle(3,9,true, 1);

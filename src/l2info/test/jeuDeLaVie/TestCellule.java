@@ -7,12 +7,14 @@ import org.junit.Test;
 public class TestCellule {
 	protected Cellule cel;
 
+	//Test l'obtention de l'abscisse d'une Cellule.
 	@Test
 	public void testGetX() {
 		cel=new Cellule(-2,5);
 		org.junit.Assert.assertEquals(-2,cel.getX());
 	}
 
+	//Test la definition de l'abscisse d'une Cellule
 	@Test
 	public void testSetX() {
 		cel=new Cellule(-2,6);
@@ -20,12 +22,14 @@ public class TestCellule {
 		org.junit.Assert.assertEquals(0, cel.getX());
 	}
 	
+	//Test l'obtention de l'ordonnee d'une Cellule.
 	@Test
 	public void testGetY() {
 		cel=new Cellule(-2,5);
 		org.junit.Assert.assertEquals(5,cel.getY());
 	}
 	
+	//Test la definition de l'ordonnee d'une Cellule
 	@Test
 	public void testSetY() {
 		cel=new Cellule(-2,6);
@@ -33,6 +37,7 @@ public class TestCellule {
 		org.junit.Assert.assertEquals(0, cel.getY());
 	}
 	
+	//Test la comparaison de deux cellule.
 	@Test
 	public void testCompareTo() {
 		cel=new Cellule(2,3);
@@ -41,6 +46,7 @@ public class TestCellule {
 		org.junit.Assert.assertEquals(cel.getY()-cel2.getY(),cel.compareTo(cel2));
 	}
 	
+	//Test l'egalité de deux Cellules.
 	@Test
 	public void testEqualsObject() {
 		cel=new Cellule(2,3);

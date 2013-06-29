@@ -19,6 +19,7 @@ public class testJeu {
 		this.jeu = new Jeu();
 	}
 
+	//Test l'ajout d'une Cellule au jeu.
 	@Test
 	public void testAjouterCellule() {
 		this.jeu.ajouterCellule(new Cellule(0, 0));
@@ -28,6 +29,7 @@ public class testJeu {
 				jeu.getListeCellule());
 	}
 
+	//Test le calcule d'une nouvelle generation d'un jeu.
 	@Test
 	public void testCalculer() {
 		ArrayList<Cellule> listeCel = new ArrayList<Cellule>();
@@ -37,16 +39,14 @@ public class testJeu {
 		jeu.setListeCellule(listeCel);
 		jeu.setTypeMonde(Jeu.MONDE_NORMAL);
 		
-		System.out.println(Output.display(jeu));
 		jeu.calculer();
-		System.out.println(Output.display(jeu));
 		org.junit.Assert.assertEquals(Arrays.asList(new Cellule(2, 2)),
 				jeu.getListeCellule());
 	}
 
 	
 
-
+	//Test l'affichage de la disposition des Cellule du jeu.
 	@Test
 	public void testDisplay() {
 		jeu = new Jeu("test", new ArrayList<Cellule>(), 0, 0, 4, 4);

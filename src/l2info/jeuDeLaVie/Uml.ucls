@@ -21,7 +21,7 @@
   </class>  
   <class id="3" language="java" name="l2info.jeuDeLaVie.Jeu" project="JeuDeLaVie" 
     file="/JeuDeLaVie/src/l2info/jeuDeLaVie/Jeu.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="521" width="418" x="582" y="232"/>    
+    <position height="644" width="418" x="516" y="248"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -39,21 +39,40 @@
   </class>  
   <class id="5" language="java" name="l2info.jeuDeLaVie.Main" project="JeuDeLaVie" 
     file="/JeuDeLaVie/src/l2info/jeuDeLaVie/Main.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="222" y="436"/>    
+    <position height="-1" width="-1" x="1070" y="348"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <association id="6">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="7" name="listeCellule"/>      
-      <multiplicity id="8" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
+  <class id="6" language="java" name="l2info.jeuDeLaVie.TypeEvolution" project="JeuDeLaVie" 
+    file="/JeuDeLaVie/src/l2info/jeuDeLaVie/TypeEvolution.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="109" y="462"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="l2info.inputOutput.jeuDeLaVie.Input" project="JeuDeLaVie" 
+    file="/JeuDeLaVie/src/l2info/inputOutput/jeuDeLaVie/Input.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="342" y="396"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="l2info.inputOutput.jeuDeLaVie.Output" project="JeuDeLaVie" 
+    file="/JeuDeLaVie/src/l2info/inputOutput/jeuDeLaVie/Output.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="349" y="548"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
   <association id="9">    
     <end type="SOURCE" refId="4" navigable="false">      
       <attribute id="10" name="suivant"/>      
@@ -74,6 +93,14 @@
     <end type="SOURCE" refId="2"/>    
     <end type="TARGET" refId="1"/>  
   </generalization>  
+  <association id="16">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="17" name="listeCellule"/>      
+      <multiplicity id="18" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
     accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="true"/>    

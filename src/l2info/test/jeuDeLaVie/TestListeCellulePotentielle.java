@@ -17,6 +17,7 @@ public class TestListeCellulePotentielle {
 		lis = new ListeCellulePotentielle();
 	}
 
+	//Test l'ajout d'un element à la liste.
 	@Test
 	public void testAjouterElement() {
 		assertNull(lis.tete());
@@ -29,7 +30,7 @@ public class TestListeCellulePotentielle {
 		org.junit.Assert.assertEquals(new CellulePotentielle(0,7,true, 1),lis.queue().tete());
 	}
 
-	
+	//Test l'ajout d'un element à la liste, à la suite de l'element courant.
 	@Test
 	public void testInsertElementAfter() {
 		CellulePotentielle a,b,c;

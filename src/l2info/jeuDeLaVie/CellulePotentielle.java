@@ -1,16 +1,21 @@
 package l2info.jeuDeLaVie;
 
+/**
+ * Classe definissant les Cellules adjacante aux cellules vivante, ayant donc une chance de devenir vivante � la generation suivante.
+ * @author Ten
+ *
+ */
 public class CellulePotentielle extends Cellule {
 
 	protected int nbVoisins;
 	protected boolean existe;
 	
 	/**
-	 * Créé une nouvelle CellulePotentielle
+	 * Cree une nouvelle CellulePotentielle
 	 * @param x
 	 * 		Abscisse de la CellulePotentielle
 	 * @param y
-	 * 		Ordonnée de la CellulePotentielle
+	 * 		Ordonnee de la CellulePotentielle
 	 * @param existe
 	 * 		Une Cellule existe-t-elle à cette position.
 	 * @param nbVoisin
@@ -23,18 +28,18 @@ public class CellulePotentielle extends Cellule {
 	}
 	
 	/**
-	 * Retourne l'existance ou non d'une Cellule à cette position.
+	 * Retourne l'existance ou non d'une Cellule a� cette position.
 	 * @return
-	 * 		True si une Cellule est présente à cette position, false sinon.
+	 * 		True si une Cellule est presente a cette position, false sinon.
 	 */
 	public boolean exists(){
 		return this.existe;
 	}
 	
 	/**
-	 * Definis si une Cellule existe à cette position.
+	 * Definis si une Cellule existe a�cette position.
 	 * @param e
-	 * 		True si une Cellule existe à cette position, false sinon.
+	 * 		True si une Cellule existe a cette position, false sinon.
 	 */
 	public void setExist(boolean e){
 		this.existe = e;
@@ -50,7 +55,7 @@ public class CellulePotentielle extends Cellule {
 			return false;
 	}
 	/**
-	 * Incrémente le nombre de voisin d'une unité
+	 * Incremente le nombre de voisin d'une unite
 	 */
 	public void ajouterVoisin(){
 		this.nbVoisins++;

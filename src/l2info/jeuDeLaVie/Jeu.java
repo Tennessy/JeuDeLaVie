@@ -3,16 +3,43 @@ package l2info.jeuDeLaVie;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/**
+ * Classe s'occupant de la gestion du jeu ( Calcule de nouvel generation, disposition, etc... ).
+ * @author Ten
+ *
+ */
 public class Jeu {
+	/**
+	 * Contient la liste des cellules vivante du jeu.
+	 */
 	protected ArrayList<Cellule> listeCellule;
+	/**
+	 * Nom du jeu ( Initialement egal au nom du fichier ).
+	 */
 	private String name;
-	private int tailleQueue;
+	/**
+	 * Abscisse de la cellule la plus ‡ gauche du jeu.
+	 */
 	private int minX;
+	/**
+	 * Ordonnee de la cellule la plus en haut du jeu.
+	 */
 	private int minY;
+	/**
+	 * Abscisse de la cellule la plus ‡ droite du jeu.
+	 */
 	private int maxX;
+	/**
+	 * Ordonnee de la cellule la plus en bas du jeu.
+	 */
 	private int maxY;
+	/**
+	 * Numero de generation actuel du jeu.
+	 */
 	protected int nbGeneration;
-	private int periode;
+	/**
+	 * Type de monde du jeu.
+	 */
 	private int typeMonde;
 	
 	public static final int MONDE_NORMAL = 10;
@@ -21,21 +48,23 @@ public class Jeu {
 
 
 	/**
-	 * Constructeur par defaut, cr√©√© un nouveau Jeu vide.
+	 * Constructeur par defaut, cree un nouveau Jeu vide.
 	 */
 	public Jeu() {
 		listeCellule = new ArrayList<Cellule>();
 		this.nbGeneration = 0;
 		this.setName("");
-		this.setTailleQueue(0);
 		this.setMinX(999999);
 		this.setMinY(999999);
 		this.setMaxX(-999999);
 		this.setMaxY(-999999);
-		this.setPeriode(0);
 		this.typeMonde = Jeu.MONDE_NORMAL;
 	}
 	
+	/**
+	 * Constructeur de copie. Cree un nouveau Jeu ‡ partir d'un jeu existant.
+	 * @param jeu ‡ copier.
+	 */
 	public Jeu(Jeu jeu){
 		this.listeCellule = new ArrayList<Cellule>();
 		for(Cellule c : jeu.listeCellule){
@@ -43,18 +72,16 @@ public class Jeu {
 		}
 		this.nbGeneration = jeu.getNbGeneration();
 		this.setName(jeu.getName());
-		this.setTailleQueue(jeu.getTailleQueue());
 		this.setMinX(jeu.getMinX());
 		this.setMinY(jeu.getMinY());
 		this.setMaxX(jeu.getMaxX());
 		this.setMaxY(jeu.getMaxY());
-		this.setPeriode(jeu.getPeriode());
 		this.typeMonde = jeu.getTypeMonde();
 	}
 
 
 	/**
-	 * Cr√©√© un Jeu, √† partir d'une ArrayList, avec un nom et les coordonn√©es
+	 * Cree un Jeu, a† partir d'une ArrayList, avec un nom et les coordonnees
 	 * minimal et maximal du Jeu.
 	 * 
 	 * @param name
@@ -62,20 +89,18 @@ public class Jeu {
 	 * @param liste
 	 *            ArrayList contenant la disposition des Cellules.
 	 * @param minX
-	 *            Abscisse √† laquelle le terrain commence
+	 *            Abscisse a† laquelle le terrain commence
 	 * @param minY
-	 *            Ordonn√©e √† laquelle le terrain commence.
+	 *            Ordonnee a† laquelle le terrain commence.
 	 * @param maxX
-	 *            Abscisse √† laquelle le terrain se termine.
+	 *            Abscisse a laquelle le terrain se termine.
 	 * @param maxY
-	 *            Abscisse √† laquelle le terrain se termine.
+	 *            ordonnee a† laquelle le terrain se termine.
 	 */
 	public Jeu(String name, ArrayList<Cellule> liste, int minX, int minY,
 			int maxX, int maxY) {
 		this.setName(name);
 		this.listeCellule = liste;
-		this.setPeriode(0);
-		this.setTailleQueue(0);
 		this.setMinX(minX);
 		this.setMinY(minY);
 		this.setMaxX(maxX);
@@ -88,14 +113,14 @@ public class Jeu {
 	 * Ajoute une Cellule au Jeu.
 	 * 
 	 * @param c
-	 *            Cellule √† ajouter au Jeu.
+	 *            Cellule a ajouter au Jeu.
 	 */
 	public void ajouterCellule(Cellule c) {
 		listeCellule.add(c);
 	}
 
 	/**
-	 * D√©finie la liste de Cellule du Jeu.
+	 * Definie la liste de Cellule du Jeu.
 	 * 
 	 * @param c
 	 *            Une ArrayList contenant la disposition des Cellules.
@@ -115,13 +140,7 @@ public class Jeu {
 	}
 
 	/**
-	 * Calcule l'evolution sur un tour des Cellules du Jeu.
-	 * 
-	 * @param listCel
-	 *            ArrayList contenant les Cellule du Jeu
-	 * @param typeMonde
-	 *            Type de monde dans lequel ce passe la simulation.
-	 * @return Une ArrayList contenant la nouvelle disposition des Cellules.
+	 * Calcule l'evolution sur un tour des Cellules du Jeu et modifie listeCellule en consequence.
 	 */
 	public void calculer() {
 
@@ -251,6 +270,11 @@ public class Jeu {
 		this.nbGeneration++;
 	}
 	
+	/**
+	 * Convertie le nom du monde en Integer.
+	 * @param s String contenant le type de monde.
+	 * @return Un Integer correpondant au type de monde.
+	 */
 	public static int TypeMonde(String s) {
 		if (s.equals("normal"))
 			return Jeu.MONDE_NORMAL;
@@ -261,6 +285,11 @@ public class Jeu {
 		return 0;
 	}
 	
+	/**
+	 * Convertie le type de monde en String.
+	 * @param type le type de mon a convertir.
+	 * @return Un string correspondant au nom du type de monde.
+	 */
 	public static String TypeMonde(int type) {
 		switch(type){
 		case Jeu.MONDE_NORMAL:
@@ -274,72 +303,105 @@ public class Jeu {
 		}
 	}
 
+	/**
+	 * @return Renvois le nom du jeu.
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 *  Definie le nom du jeu.
+	 * @param name Le nom du jeu.
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * 
+	 * @return Renvois l'abscisse maximal du jeu.
+	 */
 	public int getMaxX() {
 		return maxX;
 	}
 
-	public int setMaxX(int maxX) {
+	/**
+	 * Definie l'abscisse maximal du jeu.
+	 * @param maxX L'abscisse maximal.
+	 */
+	public void setMaxX(int maxX) {
 		this.maxX = maxX;
-		return maxX;
 	}
 
+	/**
+	 * 
+	 * @return L'abscisse minimal en jeu.
+	 */
 	public int getMinX() {
 		return minX;
 	}
 
+	/**
+	 * Definis l'abscisse minimale en jeu
+	 * @param minX L'abscisse minimale.
+	 */
 	public void setMinX(int minX) {
 		this.minX = minX;
 	}
 
+	/**
+	 * 
+	 * @return L'ordonnee minimale en jeu.
+	 */
 	public int getMinY() {
 		return minY;
 	}
 
+	/**
+	 * Definis l'ordonne minimale en jeu.
+	 * @param minY L'ordonnee minimale
+	 */
 	public void setMinY(int minY) {
 		this.minY = minY;
 	}
 
+	/**
+	 * 
+	 * @return L'ordonnee maximale en jeu.
+	 */
 	public int getMaxY() {
 		return maxY;
 	}
 
-	public int setMaxY(int maxY) {
+	/**
+	 * Definis l'ordonnee maximale en jeu.
+	 * @param maxY L'ordonnee maximale.
+	 */
+	public void setMaxY(int maxY) {
 		this.maxY = maxY;
-		return maxY;
-	}
-
-	public int getTailleQueue() {
-		return tailleQueue;
-	}
-
-	public void setTailleQueue(int tailleQueue) {
-		this.tailleQueue = tailleQueue;
-	}
-
-	public int getPeriode() {
-		return periode;
-	}
-
-	public void setPeriode(int periode) {
-		this.periode = periode;
 	}
 	
+	/**
+	 * 
+	 * @return Le type de monde du jeu.
+	 */
 	public int getTypeMonde() {
 		return this.typeMonde;
 	}
 	
+	/**
+	 * Definie le type de monde dans lequel le jeu est simuler.
+	 * @param typeMonde Le type de monde.
+	 */
 	public void setTypeMonde(int typeMonde) {
 		this.typeMonde = typeMonde;
 	}
 	
+	/**
+	 * 
+	 * @return Le numero de la generation actuelle du jeu.
+	 */
 	public int getNbGeneration(){
 		return this.nbGeneration;
 	}

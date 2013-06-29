@@ -1,5 +1,10 @@
 package l2info.jeuDeLaVie;
 
+/**
+ * Liste chainée utilisé pour le calcule de nouvelles generations.
+ * @author Ten
+ *
+ */
 public class ListeCellulePotentielle {
 
 	protected CellulePotentielle element;
@@ -86,6 +91,10 @@ public class ListeCellulePotentielle {
 		return temp;
 	}
 	
+	/**
+	 * Additionne deux listes de cellules ( Ajoute la liste passee en parametre à this ).
+	 * @param lc2 la liste à additionner.
+	 */
 	public void additionCelPot(ListeCellulePotentielle lc2) {
 		ListeCellulePotentielle lc1 = this;
 		while (lc2 != null) {

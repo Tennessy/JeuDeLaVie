@@ -33,17 +33,7 @@ public class Main {
 					int typeMonde = Jeu.TypeMonde(args[3]);
 					
 					simulation(duree, typeMonde, args[2]);
-//					
-//					if (Input.IsFichierLif(args[2]) && typeMonde != 0) {
-//						Jeu start = Input.loadGame(args[2]);
-//						start.setTypeMonde(typeMonde);
-//						for(int i = 0; i<duree; i++){
-//							
-//						}
-//						System.out.println(start.getResult());
-//					} else
-//						Main.ErrorArgs();
-					
+
 				} catch (NumberFormatException e) {
 					System.out.println("La duree doit etre numerique \n");
 					ErrorArgs();
@@ -54,16 +44,7 @@ public class Main {
 						int max_duree = Integer.parseInt(args[1]);
 						int typeMonde = Jeu.TypeMonde(args[3]);
 						
-						System.out.println(Output.getResult(calculerEvolution(max_duree, typeMonde, args[2])));
-						
-//						if (Main.IsFichierLif(args[2]) && typeMonde != 0) {
-//							Jeu start = new Jeu();
-//							start.loadGame(args[2]);
-//							start.evaluer(max_duree, typeMonde, true);
-//							System.out.println(start.getResult());
-//							
-//						} else
-//							Main.ErrorArgs();
+						System.out.println(calculerEvolution(max_duree, typeMonde, args[2]).toString());
 						
 					} catch (NumberFormatException e) {
 						System.out.println("La duree doit etre numerique \n");
@@ -153,6 +134,12 @@ public class Main {
 				.println("> java -jar JeuDeLaVie.jar -w max dossier frontieres ==> Calcul du type d’évolution de tous les jeux contenus dans le dossier passé en paramètre en monde frontiere et affiche les résultats sous la forme d’un fichier html ");
 	}
 	
+	/**
+	 * Simule et affiche les evolutions, generation par generation, d'un jeu.
+	 * @param duree Nombre d'evolution a effectuer.
+	 * @param typeMonde Type de monde dans lequel effectuer cette simulation.
+	 * @param filename Chemin du fichier lif contenant les caracteristiques du jeu.
+	 */
 	public static void simulation(int duree, int typeMonde, String filename){
 		if(typeMonde != 0){
 			try{
@@ -176,6 +163,13 @@ public class Main {
 		}
 	}
 	
+	/**
+	 * Calcule et affiche les caracteristiques d'evolution d'un jeu.
+	 * @param duree Nombre d'evolution maximale � effectuer.
+	 * @param typeMonde Type de monde dans lequel effectuer la simulation.
+	 * @param filename Chemin du fichier lif contenant les caracteristiques du jeu.
+	 * @return Le type d'evolution du jeu. 
+	 */
 	public static TypeEvolution calculerEvolution(int duree, int typeMonde, String filename){
 		TypeEvolution typeEvo = new TypeEvolution();
 		if(typeMonde != 0){
@@ -183,7 +177,7 @@ public class Main {
 				Jeu jeu = Input.loadGame(filename);
 				jeu.setTypeMonde(typeMonde);
 				typeEvo.calculerTypeEvolution(jeu, duree);
-				System.out.println(Output.getResult(typeEvo));
+				System.out.println(typeEvo.toString());
 			}catch(Exception e){
 				System.out.println("Erreur lors de la lecture du fichier");
 			}
