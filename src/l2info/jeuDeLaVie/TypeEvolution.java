@@ -4,77 +4,83 @@ import java.util.Iterator;
 
 /**
  * Classe permettant le calcule du type d'evolution d'un jeu.
+ * 
  * @author Ten
- *
+ * 
  */
 public class TypeEvolution {
-
 
 	public static final int MORT = 1;
 	public static final int STABLE = 2;
 	public static final int VAISSEAU = 4;
 	public static final int OSCILLATEUR = 3;
 	public static final int INDETERMINE = 5;
-	
+
 	protected int type;
 	protected int periode;
 	protected int tailleQueue;
 	protected String name;
 
 	/**
-	 * Constructeur par defaut. Definis le type d'evolution en Indetermine, ainsi que la periode et la taille de la Queue à 0.
+	 * Constructeur par defaut. Definis le type d'evolution en Indetermine,
+	 * ainsi que la periode et la taille de la Queue à 0.
 	 */
-	public TypeEvolution(){
+	public TypeEvolution() {
 		this.type = TypeEvolution.INDETERMINE;
 		this.periode = 0;
 		this.tailleQueue = 0;
 		this.name = "";
 	}
-	
+
 	/**
-	 * Effectue la simulation d'un jeu afin d'en determiner le type d'evolution. Ne modifie pas le jeu passe en parametre.
-	 * @param jeu Jeu sur lequel effectuer le calcule du type d'evolution.
-	 * @param nbTours Nombre d'evolution a effectuer au maximum.
+	 * Effectue la simulation d'un jeu afin d'en determiner le type d'evolution.
+	 * Ne modifie pas le jeu passe en parametre.
+	 * 
+	 * @param jeu
+	 *            Jeu sur lequel effectuer le calcule du type d'evolution.
+	 * @param nbTours
+	 *            Nombre d'evolution a effectuer au maximum.
 	 */
-	public void calculerTypeEvolution(Jeu jeu, int nbTours){
+	public void calculerTypeEvolution(Jeu jeu, int nbTours) {
 		this.name = jeu.getName();
 		Jeu jeuCopy = new Jeu(jeu);
 		Jeu jeuX2 = new Jeu(jeu);
 		Jeu jeuTemp = new Jeu(jeu);
-		
+
 		int i = 0;
-		
-		while(i<nbTours && this.type == TypeEvolution.INDETERMINE){
+
+		while (i < nbTours && this.type == TypeEvolution.INDETERMINE) {
 			jeuTemp.calculer();
 			jeuX2.calculer();
 			jeuX2.calculer();
-			
-			if(jeuTemp.getListeCellule().isEmpty()){
+
+			if (jeuTemp.getListeCellule().isEmpty()) {
 				this.type = TypeEvolution.MORT;
 				this.periode = 1;
 				this.tailleQueue = jeuTemp.getNbGeneration();
-			}
-			else if(jeuTemp.getListeCellule().equals(jeuCopy.getListeCellule())){
+			} else if (jeuTemp.getListeCellule().equals(
+					jeuCopy.getListeCellule())) {
 				this.type = TypeEvolution.STABLE;
 				this.periode = 1;
 				this.tailleQueue = jeuTemp.getNbGeneration();
-			
-			}
-			else if(jeuTemp.getListeCellule().equals(jeuX2.getListeCellule())){
+
+			} else if (jeuTemp.getListeCellule()
+					.equals(jeuX2.getListeCellule())) {
 				this.type = TypeEvolution.OSCILLATEUR;
-				this.periode = jeuX2.getNbGeneration() - jeuTemp.getNbGeneration();
+				this.periode = jeuX2.getNbGeneration()
+						- jeuTemp.getNbGeneration();
 				this.tailleQueue = jeuTemp.getNbGeneration();
-			}
-			else if(isTranslation(jeuTemp, jeuX2)){
+			} else if (isTranslation(jeuTemp, jeuX2)) {
 				this.type = TypeEvolution.VAISSEAU;
 				this.tailleQueue = jeuTemp.getNbGeneration();
-				this.periode = jeuX2.getNbGeneration() - jeuTemp.getNbGeneration();
+				this.periode = jeuX2.getNbGeneration()
+						- jeuTemp.getNbGeneration();
 			}
 			jeuCopy = new Jeu(jeuTemp);
 			i++;
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @return Le type d'evolution du jeu.
@@ -100,9 +106,13 @@ public class TypeEvolution {
 	}
 
 	/**
-	 * Verifie si un jeu est une translation d'un autre jeu. ( Au niveau de la disposition des cellules ).
-	 * @param jeu1 Jeu a tester
-	 * @param jeu2 Second jeu a tester
+	 * Verifie si un jeu est une translation d'un autre jeu. ( Au niveau de la
+	 * disposition des cellules ).
+	 * 
+	 * @param jeu1
+	 *            Jeu a tester
+	 * @param jeu2
+	 *            Second jeu a tester
 	 * @return True si un jeu est une translation d'un autre, false sinon.
 	 */
 	private boolean isTranslation(Jeu jeu1, Jeu jeu2) {
@@ -127,17 +137,17 @@ public class TypeEvolution {
 		}
 
 	}
-	
+
 	/**
 	 * 
 	 * @return Le nom du jeu.
 	 */
-	public String getName(){
+	public String getName() {
 		return name;
 	}
-	
+
 	@Override
-	public String toString(){
+	public String toString() {
 		String result = "Type d'evolution : ";
 		switch (this.getType()) {
 		case TypeEvolution.INDETERMINE:
@@ -155,9 +165,10 @@ public class TypeEvolution {
 		case TypeEvolution.VAISSEAU:
 			result += "Vaisseau";
 		}
-		result += "\nTaille de la queue : " + this.getTailleQueue() + "\nPeriode : " + this.getPeriode();
+		result += "\nTaille de la queue : " + this.getTailleQueue()
+				+ "\nPeriode : " + this.getPeriode();
 		return result;
-		
+
 	}
 
 }

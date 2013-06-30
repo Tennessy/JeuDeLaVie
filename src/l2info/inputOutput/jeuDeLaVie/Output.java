@@ -8,17 +8,22 @@ import l2info.jeuDeLaVie.TypeEvolution;
 
 /**
  * Classe contenant les fonctions d'affichage et de generation HTML.
+ * 
  * @author Ten
- *
+ * 
  */
 public class Output {
 
 	/**
-	 * Genere le code html affichant les caracteristiques des evolutions passés en parametre.
-	 * @param listeEvolution ArrayList de TypeEvolution contenant les caracteristique d'evolution des jeux.
+	 * Genere le code html affichant les caracteristiques des evolutions passés
+	 * en parametre.
+	 * 
+	 * @param listeEvolution
+	 *            ArrayList de TypeEvolution contenant les caracteristique
+	 *            d'evolution des jeux.
 	 * @return Retourne un StringBuffer contenant le code html
 	 */
-	public static StringBuffer toHtml(ArrayList<TypeEvolution> listeEvolution){
+	public static StringBuffer toHtml(ArrayList<TypeEvolution> listeEvolution) {
 		StringBuffer html = new StringBuffer();
 		html.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"><html><head><title>Resultats Jeu de la vie </title></head><body> <table border=\"1\"> <tr><th>Nom</th><th>type</th><th>Taille queue</th><th>Periode</th></tr><tr>");
 		for (TypeEvolution evolution : listeEvolution) {
@@ -41,18 +46,23 @@ public class Output {
 				html.append("Vaisseau");
 			}
 			html.append("</td><td>"
-					+ (evolution.getTailleQueue() > 0 ? evolution.getTailleQueue() : "Inconnue")
-					+ "</td><td>" + (evolution.getPeriode() > 0 ? evolution.getPeriode() : "Inconnue")
-					+ "</td></tr>");
+					+ (evolution.getTailleQueue() > 0 ? evolution
+							.getTailleQueue() : "Inconnue")
+					+ "</td><td>"
+					+ (evolution.getPeriode() > 0 ? evolution.getPeriode()
+							: "Inconnue") + "</td></tr>");
 		}
 
-		html.append("</table> </html></body>");
+		html.append("</table> </body></html>");
 		return html;
 	}
-	
+
 	/**
-	 * Genere un String permettant d'afficher la disposition des cellules du jeu.
-	 * @param jeu Jeu à afficher
+	 * Genere un String permettant d'afficher la disposition des cellules du
+	 * jeu.
+	 * 
+	 * @param jeu
+	 *            Jeu à afficher
 	 * @return Un String contenant la disposition des cellules.
 	 */
 	public static String display(Jeu jeu) {
@@ -101,6 +111,5 @@ public class Output {
 		}
 		return tab;
 	}
-	
 
 }

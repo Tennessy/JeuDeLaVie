@@ -2,8 +2,9 @@ package l2info.jeuDeLaVie;
 
 /**
  * Liste chain�e utilis� pour le calcule de nouvelles generations.
+ * 
  * @author Ten
- *
+ * 
  */
 public class ListeCellulePotentielle {
 
@@ -20,6 +21,7 @@ public class ListeCellulePotentielle {
 
 	/**
 	 * Créé une liste de CellulePotentielle possedant un element.
+	 * 
 	 * @param c
 	 */
 	public ListeCellulePotentielle(CellulePotentielle c) {
@@ -29,14 +31,14 @@ public class ListeCellulePotentielle {
 
 	/**
 	 * Ajoute un element en fin de liste.
+	 * 
 	 * @param c
-	 * 		CellulePotentielle à ajouter à la liste.
+	 *            CellulePotentielle à ajouter à la liste.
 	 */
 	public void ajouterElement(CellulePotentielle c) {
 		if (this.element == null) {
 			this.element = c;
-		} 
-		else {
+		} else {
 			ListeCellulePotentielle cTemp = this;
 			while (cTemp.suivant != null) {
 				cTemp = cTemp.suivant;
@@ -47,53 +49,58 @@ public class ListeCellulePotentielle {
 
 	/**
 	 * Retourne le premier element de la liste
-	 * @return
-	 * 		Le premier element de la liste.
+	 * 
+	 * @return Le premier element de la liste.
 	 */
-	public CellulePotentielle tete(){
+	public CellulePotentielle tete() {
 		return this.element;
 	}
 
 	/**
 	 * Retourne l'element qui fait suite à l'element courant.
-	 * @return
-	 * 		L'element suivant.
+	 * 
+	 * @return L'element suivant.
 	 */
-	public ListeCellulePotentielle queue(){
+	public ListeCellulePotentielle queue() {
 		return this.suivant;
 	}
 
 	/**
-	 * Insert une nouvelle CellulePotentielle dans la suite, après l'element courant.
+	 * Insert une nouvelle CellulePotentielle dans la suite, après l'element
+	 * courant.
+	 * 
 	 * @param c
 	 */
-	public void insertElementAfter(CellulePotentielle c){
-		if(this.suivant != null){
+	public void insertElementAfter(CellulePotentielle c) {
+		if (this.suivant != null) {
 			ListeCellulePotentielle temp = this.suivant;
 			this.suivant = new ListeCellulePotentielle(c);
 			this.suivant.suivant = temp;
-		}
-		else{
+		} else {
 			this.suivant = new ListeCellulePotentielle(c);
 		}
 	}
-	
+
 	/**
 	 * Ajoute une nouvelle CellulePotentielle qui precede l'element courant.
+	 * 
 	 * @param c
-	 * 		CellulePotentielle à ajouter.
-	 * @return
-	 * 		La nouvelle liste, avec comme première element la CellulePotentielle passée en parametre.
+	 *            CellulePotentielle à ajouter.
+	 * @return La nouvelle liste, avec comme première element la
+	 *         CellulePotentielle passée en parametre.
 	 */
-	public ListeCellulePotentielle AjouterTete(CellulePotentielle c){
+	public ListeCellulePotentielle AjouterTete(CellulePotentielle c) {
 		ListeCellulePotentielle temp = new ListeCellulePotentielle(c);
 		temp.suivant = this;
 		return temp;
 	}
-	
+
 	/**
-	 * Additionne deux listes de cellules ( Ajoute la liste passee en parametre � this ).
-	 * @param lc2 la liste � additionner.
+	 * Additionne deux listes de cellules ( Ajoute la liste passee en parametre
+	 * � this ).
+	 * 
+	 * @param lc2
+	 *            la liste � additionner.
 	 */
 	public void additionCelPot(ListeCellulePotentielle lc2) {
 		ListeCellulePotentielle lc1 = this;

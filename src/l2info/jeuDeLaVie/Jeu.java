@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- * Classe s'occupant de la gestion du jeu ( Calcule de nouvel generation, disposition, etc... ).
+ * Classe s'occupant de la gestion du jeu ( Calcule de nouvel generation,
+ * disposition, etc... ).
+ * 
  * @author Ten
- *
+ * 
  */
 public class Jeu {
 	/**
@@ -41,11 +43,10 @@ public class Jeu {
 	 * Type de monde du jeu.
 	 */
 	private int typeMonde;
-	
+
 	public static final int MONDE_NORMAL = 10;
 	public static final int MONDE_CIRCULAIRE = 11;
 	public static final int MONDE_FRONTIERES = 12;
-
 
 	/**
 	 * Constructeur par defaut, cree un nouveau Jeu vide.
@@ -60,14 +61,16 @@ public class Jeu {
 		this.setMaxY(-999999);
 		this.typeMonde = Jeu.MONDE_NORMAL;
 	}
-	
+
 	/**
 	 * Constructeur de copie. Cree un nouveau Jeu à partir d'un jeu existant.
-	 * @param jeu à copier.
+	 * 
+	 * @param jeu
+	 *            à copier.
 	 */
-	public Jeu(Jeu jeu){
+	public Jeu(Jeu jeu) {
 		this.listeCellule = new ArrayList<Cellule>();
-		for(Cellule c : jeu.listeCellule){
+		for (Cellule c : jeu.listeCellule) {
 			this.listeCellule.add(c);
 		}
 		this.nbGeneration = jeu.getNbGeneration();
@@ -78,7 +81,6 @@ public class Jeu {
 		this.setMaxY(jeu.getMaxY());
 		this.typeMonde = jeu.getTypeMonde();
 	}
-
 
 	/**
 	 * Cree un Jeu, a  partir d'une ArrayList, avec un nom et les coordonnees
@@ -140,14 +142,15 @@ public class Jeu {
 	}
 
 	/**
-	 * Calcule l'evolution sur un tour des Cellules du Jeu et modifie listeCellule en consequence.
+	 * Calcule l'evolution sur un tour des Cellules du Jeu et modifie
+	 * listeCellule en consequence.
 	 */
 	public void calculer() {
 
 		if (this.listeCellule.isEmpty()) {
-			this.listeCellule =  new ArrayList<Cellule>();
+			this.listeCellule = new ArrayList<Cellule>();
 			this.nbGeneration++;
-			
+
 			return;
 		}
 
@@ -156,7 +159,8 @@ public class Jeu {
 			listesCellulePot[i] = new ListeCellulePotentielle();
 		}
 
-		//Creation des listes contenant les coordonnées des "cases" adjacantes à une cellule vivante.
+		// Creation des listes contenant les coordonnées des "cases" adjacantes
+		// à une cellule vivante.
 		Iterator<Cellule> itCels = this.listeCellule.iterator();
 		while (itCels.hasNext()) {
 			Cellule cpTemp = itCels.next();
@@ -186,34 +190,35 @@ public class Jeu {
 
 		}
 
-		//Addition de toute les listes afin d'en obtenir qu'une contenant toutes les "cases" adjacantes.
+		// Addition de toute les listes afin d'en obtenir qu'une contenant
+		// toutes les "cases" adjacantes.
 		ListeCellulePotentielle listeSomme = listesCellulePot[0];
 		for (int i = 1; i < 9; i++) {
 			ListeCellulePotentielle first = listeSomme;
 			first.additionCelPot(listesCellulePot[i]);
 		}
 
-		
 		if (typeMonde == Jeu.MONDE_CIRCULAIRE) {
 			ListeCellulePotentielle liste = listeSomme;
 			ListeCellulePotentielle[] exterieur = new ListeCellulePotentielle[4];
 			for (int i = 0; i < exterieur.length; i++) {
 				exterieur[i] = new ListeCellulePotentielle();
 			}
-			
-			//Dans le cas du monde circulaire, on recopie toute les cellules d'un bord sur le bord opposé.
+
+			// Dans le cas du monde circulaire, on recopie toute les cellules
+			// d'un bord sur le bord opposé.
 			while (liste != null) {
 				if (liste.tete().getX() == getMinX() - 1
 						&& liste.tete().getY() >= getMinY()
 						&& liste.tete().getY() <= getMaxY()) {
-					exterieur[0].ajouterElement(new CellulePotentielle(getMaxX(),
-							liste.tete().getY(), false, liste.tete()
+					exterieur[0].ajouterElement(new CellulePotentielle(
+							getMaxX(), liste.tete().getY(), false, liste.tete()
 									.getNbVoisin()));
 				} else if (liste.tete().getX() == getMaxX() + 1
 						&& liste.tete().getY() >= getMinY()
 						&& liste.tete().getY() <= getMaxY()) {
-					exterieur[1].ajouterElement(new CellulePotentielle(getMinX(),
-							liste.tete().getY(), false, liste.tete()
+					exterieur[1].ajouterElement(new CellulePotentielle(
+							getMinX(), liste.tete().getY(), false, liste.tete()
 									.getNbVoisin()));
 				} else if (liste.tete().getY() == getMinY() - 1
 						&& liste.tete().getX() >= getMinX()
@@ -231,7 +236,8 @@ public class Jeu {
 				liste = liste.queue();
 			}
 
-			//On additionne les cellules calculer precedemment à celle que l'on possede deja.
+			// On additionne les cellules calculer precedemment à celle que l'on
+			// possede deja.
 			for (int i = 0; i < exterieur.length; i++) {
 				liste = listeSomme;
 				if (exterieur[i].tete() != null)
@@ -239,13 +245,15 @@ public class Jeu {
 			}
 		}
 
-		
-		//On cree une liste final contenant les cellules possedant suffisement de voisin pour rester/devenir vivante.
+		// On cree une liste final contenant les cellules possedant suffisement
+		// de voisin pour rester/devenir vivante.
 		ArrayList<Cellule> lCellule = new ArrayList<Cellule>();
 		while (listeSomme != null) {
 			if (!listeSomme.tete().exists()
 					&& listeSomme.tete().getNbVoisin() == 3) {
-				//Dans le cas des mondes frontieres et circulaire, on verifie que les coordonnees des cellules ne depassent pas la taille du jeu.
+				// Dans le cas des mondes frontieres et circulaire, on verifie
+				// que les coordonnees des cellules ne depassent pas la taille
+				// du jeu.
 				if (typeMonde == Jeu.MONDE_FRONTIERES
 						|| typeMonde == Jeu.MONDE_CIRCULAIRE) {
 					if (listeSomme.tete().getX() > getMinX()
@@ -271,10 +279,12 @@ public class Jeu {
 		this.listeCellule = lCellule;
 		this.nbGeneration++;
 	}
-	
+
 	/**
 	 * Convertie le nom du monde en Integer.
-	 * @param s String contenant le type de monde.
+	 * 
+	 * @param s
+	 *            String contenant le type de monde.
 	 * @return Un Integer correpondant au type de monde.
 	 */
 	public static int TypeMonde(String s) {
@@ -286,21 +296,23 @@ public class Jeu {
 			return Jeu.MONDE_FRONTIERES;
 		return 0;
 	}
-	
+
 	/**
 	 * Convertie le type de monde en String.
-	 * @param type le type de mon a convertir.
+	 * 
+	 * @param type
+	 *            le type de mon a convertir.
 	 * @return Un string correspondant au nom du type de monde.
 	 */
 	public static String TypeMonde(int type) {
-		switch(type){
+		switch (type) {
 		case Jeu.MONDE_NORMAL:
 			return "normal";
 		case Jeu.MONDE_CIRCULAIRE:
 			return "circulaire";
-		case Jeu.MONDE_FRONTIERES : 
+		case Jeu.MONDE_FRONTIERES:
 			return "frontiere";
-		default : 
+		default:
 			return "inconnu";
 		}
 	}
@@ -313,8 +325,10 @@ public class Jeu {
 	}
 
 	/**
-	 *  Definie le nom du jeu.
-	 * @param name Le nom du jeu.
+	 * Definie le nom du jeu.
+	 * 
+	 * @param name
+	 *            Le nom du jeu.
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -330,7 +344,9 @@ public class Jeu {
 
 	/**
 	 * Definie l'abscisse maximal du jeu.
-	 * @param maxX L'abscisse maximal.
+	 * 
+	 * @param maxX
+	 *            L'abscisse maximal.
 	 */
 	public void setMaxX(int maxX) {
 		this.maxX = maxX;
@@ -346,7 +362,9 @@ public class Jeu {
 
 	/**
 	 * Definis l'abscisse minimale en jeu
-	 * @param minX L'abscisse minimale.
+	 * 
+	 * @param minX
+	 *            L'abscisse minimale.
 	 */
 	public void setMinX(int minX) {
 		this.minX = minX;
@@ -362,7 +380,9 @@ public class Jeu {
 
 	/**
 	 * Definis l'ordonne minimale en jeu.
-	 * @param minY L'ordonnee minimale
+	 * 
+	 * @param minY
+	 *            L'ordonnee minimale
 	 */
 	public void setMinY(int minY) {
 		this.minY = minY;
@@ -378,12 +398,14 @@ public class Jeu {
 
 	/**
 	 * Definis l'ordonnee maximale en jeu.
-	 * @param maxY L'ordonnee maximale.
+	 * 
+	 * @param maxY
+	 *            L'ordonnee maximale.
 	 */
 	public void setMaxY(int maxY) {
 		this.maxY = maxY;
 	}
-	
+
 	/**
 	 * 
 	 * @return Le type de monde du jeu.
@@ -391,20 +413,22 @@ public class Jeu {
 	public int getTypeMonde() {
 		return this.typeMonde;
 	}
-	
+
 	/**
 	 * Definie le type de monde dans lequel le jeu est simuler.
-	 * @param typeMonde Le type de monde.
+	 * 
+	 * @param typeMonde
+	 *            Le type de monde.
 	 */
 	public void setTypeMonde(int typeMonde) {
 		this.typeMonde = typeMonde;
 	}
-	
+
 	/**
 	 * 
 	 * @return Le numero de la generation actuelle du jeu.
 	 */
-	public int getNbGeneration(){
+	public int getNbGeneration() {
 		return this.nbGeneration;
 	}
 }

@@ -12,15 +12,19 @@ import l2info.jeuDeLaVie.Jeu;
 
 /**
  * Classe Contenant le necessaire au chargement des fichiers lif.
+ * 
  * @author Ten
- *
+ * 
  */
 public class Input {
-	
+
 	/**
 	 * Charge un Jeu à partir d'un fichier lif.
-	 * @param src Chemin vers le fichier lif à charger.
-	 * @return Renvois un Jeu avec les caracteristiques du fichier lif passé en parametre.
+	 * 
+	 * @param src
+	 *            Chemin vers le fichier lif à charger.
+	 * @return Renvois un Jeu avec les caracteristiques du fichier lif passé en
+	 *         parametre.
 	 * @throws IOException
 	 */
 	public static Jeu loadGame(String src) throws IOException {
@@ -44,7 +48,8 @@ public class Input {
 				jeu.setMaxX(jeu.getMaxX() + (monVector.get(i).length() - 1));
 			for (int j = 0; j < monVector.get(i).length(); j++) {
 				if (monVector.get(i).charAt(j) == '*') {
-					listeCel.add(new Cellule(jeu.getMinX() + j, jeu.getMinY() + i));
+					listeCel.add(new Cellule(jeu.getMinX() + j, jeu.getMinY()
+							+ i));
 				}
 			}
 		}
@@ -53,8 +58,7 @@ public class Input {
 		jeu.setListeCellule(listeCel);
 		return jeu;
 	}
-	
-	
+
 	private static void ParamGame(StringTokenizer stk, Jeu jeu) {
 		ArrayList<Integer> nb = new ArrayList<Integer>();
 		while (stk.hasMoreTokens()) {
@@ -66,5 +70,5 @@ public class Input {
 		jeu.setMinX(nb.get(1));
 		jeu.setMinY(nb.get(0));
 	}
-	
+
 }

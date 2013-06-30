@@ -2,8 +2,9 @@ package l2info.jeuDeLaVie;
 
 /**
  * Classe definissant les attributs des Cellules du jeu.
+ * 
  * @author Ten
- *
+ * 
  */
 public class Cellule implements Comparable<Cellule> {
 	protected int x;
